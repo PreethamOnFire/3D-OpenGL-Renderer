@@ -82,7 +82,7 @@ private:
             /* Poll for and process events */
             glfwPollEvents();
         }
-
+        delete cube;
         glfwTerminate();
     }
 

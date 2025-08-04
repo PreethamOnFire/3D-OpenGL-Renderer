@@ -147,6 +147,7 @@
     <ClInclude Include="src\BufferObjects\DefaultObjects\Cube.h" />
     <ClInclude Include="src\BufferObjects\IndexBuffer.h" />
     <ClInclude Include="src\BufferObjects\Mesh.h" />
+    <ClInclude Include="src\BufferObjects\Vertex.h" />
     <ClInclude Include="src\BufferObjects\VertexArray.h" />
     <ClInclude Include="src\BufferObjects\VertexBuffer.h" />
     <ClInclude Include="src\Camera.h" />
