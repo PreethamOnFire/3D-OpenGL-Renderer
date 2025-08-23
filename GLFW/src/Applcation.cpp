@@ -5,6 +5,7 @@
 #include "../src/BufferObjects/DefaultObjects/Cube.h"
 #include "Shader.h"
 #include "Renderer.h"
+#include "Scene/Model/Model.h"
 #include <vector>
 
 class Game {
@@ -65,6 +66,10 @@ private:
 
         
         Cube* cube = new Cube(shaderProgram1);
+		Model* model = new Model("assets/models/Monkey.obj", shaderProgram1);
+		model->setPosition(glm::vec3(0.0f, 0.0f, -5.0f));
+		model->setScale(glm::vec3(-0.8f, -0.8f, -0.8f));
+        
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -75,6 +80,7 @@ private:
             renderer->GetInput();
             
             renderer->DrawTriangles(cube->cubeMesh);
+			model->render(*renderer);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
@@ -83,6 +89,7 @@ private:
             glfwPollEvents();
         }
         delete cube;
+		delete model;
         glfwTerminate();
     }
 

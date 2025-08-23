@@ -55,6 +55,10 @@ void Mesh::updateIndices(const std::vector<unsigned int>& newIndices) {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_DYNAMIC_DRAW);
 }
 
+void Mesh::updateModelMatrix(const glm::mat4& modelMatrix) {
+	*this->modelMatrix = modelMatrix;
+}
+
 Mesh::~Mesh() {
 	delete VAO;
 	delete VBO;

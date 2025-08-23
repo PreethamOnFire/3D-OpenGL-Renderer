@@ -21,6 +21,7 @@ public:
 	Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, Shader& shader);
 	void updateVertices(const std::vector<Vertex>& newVertices);
 	void updateIndices(const std::vector<unsigned int>& newIndices);
+	void updateModelMatrix(const glm::mat4& modelMatrix);
 	size_t getVertexCount();
 	size_t getIndexCount();
 	std::vector<Vertex>& getPositions();

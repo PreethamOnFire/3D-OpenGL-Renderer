@@ -104,13 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;C:\Users\madha\OneDrive\Documents\Visual Studio 2022\Libraries\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;C:\Users\madha\OneDrive\Documents\Visual Studio 2022\Libraries\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\lib\Release\x64;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\lib\x64;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\lib\Release\x64;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;assimp-vc143-mt.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -121,38 +121,48 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;C:\Users\madha\OneDrive\Documents\Visual Studio 2022\Libraries\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;C:\Users\madha\OneDrive\Documents\Visual Studio 2022\Libraries\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\lib\Release\x64;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\lib\x64;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\lib\Release\x64;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;assimp-vc143-mt.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Applcation.cpp" />
     <ClCompile Include="src\BufferObjects\DefaultObjects\Cube.cpp" />
     <ClCompile Include="src\BufferObjects\IndexBuffer.cpp" />
+    <ClCompile Include="src\BufferObjects\Material.cpp" />
     <ClCompile Include="src\BufferObjects\Mesh.cpp" />
     <ClCompile Include="src\BufferObjects\VertexArray.cpp" />
     <ClCompile Include="src\BufferObjects\VertexBuffer.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Scene\Model\Model.cpp" />
+    <ClCompile Include="src\Scene\SceneNode.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Utility\ModelLoader.cpp" />
+    <ClCompile Include="src\Utility\TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BufferObjects\DefaultObjects\Cube.h" />
     <ClInclude Include="src\BufferObjects\IndexBuffer.h" />
+    <ClInclude Include="src\BufferObjects\Material.h" />
     <ClInclude Include="src\BufferObjects\Mesh.h" />
     <ClInclude Include="src\BufferObjects\Vertex.h" />
     <ClInclude Include="src\BufferObjects\VertexArray.h" />
     <ClInclude Include="src\BufferObjects\VertexBuffer.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\Scene\Model\Model.h" />
+    <ClInclude Include="src\Scene\SceneNode.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\stb\stb_image.h" />
+    <ClInclude Include="src\Utility\ModelLoader.h" />
+    <ClInclude Include="src\Utility\TextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\FragmentShaders\BlinkingShader.fs" />
