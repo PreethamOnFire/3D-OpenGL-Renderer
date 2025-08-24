@@ -92,7 +92,7 @@ std::unique_ptr<SceneNode> ModelLoader::processNode(aiNode* node, const aiScene*
     sceneNode->setScale(glm::vec3(scaling.x, scaling.y, scaling.z));
 	sceneNode->setRotation(quatToEuler(rotation));
 
-    for (unsigned int i = 0; i < node->mNumChildren; i++) {
+    for (unsigned int i = 0; i < node->mNumMeshes; i++) {
         aiMesh* childMesh = scene->mMeshes[node->mMeshes[i]];
         Mesh* mesh = processMesh(childMesh, scene, shader);
 

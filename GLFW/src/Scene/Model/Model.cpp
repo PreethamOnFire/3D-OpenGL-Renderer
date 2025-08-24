@@ -9,7 +9,7 @@
 #include "Model.h"
 
 Model::Model(const std::string& filePath, Shader& shader)
-	: filePath(filePath), position(0.0f), rotation(0.0f), scale(1.0f) {
+	: filePath(filePath), position(0.0f), rotation(0.0f), scale(1.0f), shader(&shader) {
 	auto result = ModelLoader::loadHierarchicalModel(filePath, shader);
 	rootNode = std::move(result.first);
 	materials = result.second;
@@ -17,7 +17,28 @@ Model::Model(const std::string& filePath, Shader& shader)
 		std::cerr << "Failed to load model from " << filePath << std::endl;
 		return;
 	}
-	this->shader = &shader;
+
+	for (size_t i = 0; i < materials.size(); ++i) {
+		if (!materials[i]) {
+			std::cerr << "ERROR: Material " << i << " is null!" << std::endl;
+		}
+		else {
+			std::cout << "Material " << i << " has " << materials[i]->getTextures().size() << " textures" << std::endl;
+		}
+	}
+
+	// Debug: Check if rootNode has valid meshes
+	if (rootNode->meshes.empty()) {
+		std::cerr << "WARNING: Root node has no meshes!" << std::endl;
+	}
+	else {
+		std::cout << "Root node has " << rootNode->meshes.size() << " meshes" << std::endl;
+		for (size_t i = 0; i < rootNode->meshes.size(); ++i) {
+			if (!rootNode->meshes[i]) {
+				std::cerr << "ERROR: Mesh " << i << " is null!" << std::endl;
+			}
+		}
+	}
 }
 
 Model::~Model() {
@@ -53,12 +74,11 @@ void Model::rotate(const glm::vec3& deltaRotation) {
 }
 
 void Model::updateRootNodeTransform() {
-	if (rootNode) {
-		rootNode->setPosition(position);
-		rootNode->setRotation(rotation);
-		rootNode->setScale(scale);
-		rootNode->updateGlobalTransform();
-	}
+	if (!rootNode) return;
+	rootNode->setPosition(position);
+	rootNode->setRotation(rotation);
+	rootNode->setScale(scale);
+	rootNode->updateGlobalTransform();
 }
 
 SceneNode* Model::getRootNode() const {
@@ -80,8 +100,7 @@ bool Model::isLoaded() const {
 }
 
 void Model::render(Renderer& renderer) {
+	if (!rootNode || !shader) return;
 	shader->use();
-	if (rootNode) {
-		rootNode->render(renderer, materials);
-	}
+	rootNode->render(renderer, materials);
 }

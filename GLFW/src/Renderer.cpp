@@ -58,6 +58,7 @@ void Renderer::DrawTriangles(Mesh &mesh) {
     glm::mat4 MVP = camera->projectionMatrix * camera->viewMatrix * *mesh.modelMatrix;
 	glm::mat4 normalMatrix = glm::transpose(glm::inverse(*mesh.modelMatrix));
 	mesh.shader->setMat4("MVP", MVP);
+	mesh.shader->setMat4("modelMatrix", *mesh.modelMatrix);
 	mesh.shader->setMat4("normalMatrix", normalMatrix);
     glDrawElements(GL_TRIANGLES, mesh.EBO->getCount(), GL_UNSIGNED_INT, nullptr);
 }

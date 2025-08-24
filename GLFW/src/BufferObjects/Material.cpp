@@ -10,9 +10,24 @@ void Material::addTexture(const Texture& texture) {
 }
 
 void Material::bindTextures(Shader& shader) const {
-	for (size_t i = 0; i < textures.size(); ++i) {
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+	int diffuseUnit = 0, specularUnit = 1, normalUnit = 2;
+	for (const auto& texture : textures) {
+		if (texture.id == 0) continue;
+		if (texture.type == "diffuse") {
+			std::cout << "Binding diffuse texture ID " << texture.id << " to unit " << diffuseUnit << std::endl;
+			glActiveTexture(GL_TEXTURE0 + diffuseUnit);
+			glBindTexture(GL_TEXTURE_2D, texture.id);
+		}
+		else if (texture.type == "specular") {
+			std::cout << "Binding specular texture ID " << texture.id << " to unit " << specularUnit << std::endl;
+			glActiveTexture(GL_TEXTURE0 + specularUnit);
+			glBindTexture(GL_TEXTURE_2D, texture.id);
+		}
+		else if (texture.type == "normal") {
+			std::cout << "Binding normal texture ID " << texture.id << " to unit " << normalUnit << std::endl;
+			glActiveTexture(GL_TEXTURE0 + normalUnit);
+			glBindTexture(GL_TEXTURE_2D, texture.id);
+		}
 	}
 }
 
@@ -30,26 +45,22 @@ void Material::setUniforms(Shader& shader) const {
 	shader.setVec3("material.specular", specular);
 	shader.setFloat("material.shininess", shininess);
 
-	unsigned int diffuseCount = 0;
-	unsigned int specularCount = 0;
-	unsigned int normalCount = 0;
+	bool hasDiffuse = false, hasSpecular = false, hasNormal = false;
 
-	for (size_t i = 0; i < textures.size(); ++i) {
-		std::string number;
-		std::string type = textures[i].type;
-
-		if (type == "diffuse") {
-			number = std::to_string(diffuseCount++);
-		}
-		else if (type == "specular") {
-			number = std::to_string(specularCount++);
-		}
-		else if (type == "normal") {
-			number = std::to_string(normalCount++);
-		}
-		std::string uniformName = type + number;
-		shader.setInt(uniformName, i);
+	for (const auto& texture : textures) {
+		if (texture.type == "diffuse") hasDiffuse = true;
+		else if (texture.type == "specular") hasSpecular = true;
+		else if (texture.type == "normal") hasNormal = true;
 	}
+
+	shader.setBool("material.hasDiffuseMap", hasDiffuse);
+	shader.setBool("material.hasSpecularMap", hasSpecular);
+	shader.setBool("material.hasNormalMap", hasNormal);
+
+	// Set texture samplers
+	if (hasDiffuse) shader.setInt("material.diffuse0", 0);
+	if (hasSpecular) shader.setInt("material.specular0", 1);
+	if (hasNormal) shader.setInt("material.normal0", 2);
 }
 
 const std::vector<Texture>& Material::getTextures() const {
