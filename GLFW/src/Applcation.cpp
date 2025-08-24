@@ -60,15 +60,22 @@ private:
     }
 
     void mainLoop() {
-        Shader shaderProgram("src/VertexShaders/DefaultVertexShader.vs", "src/FragmentShaders/BlinkingShader.fs");
         Shader shaderProgram1("src/VertexShaders/DefaultVertexShader.vs", "src/FragmentShaders/DefaultFragmentShader.fs");
+        Shader textureShader("src/VertexShaders/DefaultTextureVertexShader.vs", "src/FragmentShaders/TextureShader.fs");
 
 
         
         Cube* cube = new Cube(shaderProgram1);
-		Model* model = new Model("assets/models/Monkey.obj", shaderProgram1);
-		model->setPosition(glm::vec3(0.0f, 0.0f, -5.0f));
-		model->setScale(glm::vec3(-0.8f, -0.8f, -0.8f));
+		// Model* model = new Model("assets/models/Monkey.obj", shaderProgram1);
+		Model* normandy = new Model("assets/models/Normandy/Normandy.obj", textureShader);
+		// model->setPosition(glm::vec3(0.0f, 0.0f, -5.0f));
+		// model->setScale(glm::vec3(-0.8f, -0.8f, -0.8f));
+        if (normandy->isLoaded()) {
+            normandy->setScale(glm::vec3(0.01f, 0.01f, 0.01f));
+        }
+        else {
+			std::cout << "Failed to load Normandy model." << std::endl;
+        }
         
 
         /* Loop until the user closes the window */
@@ -78,9 +85,16 @@ private:
             renderer->Clear();
 
             renderer->GetInput();
+
+			textureShader.use();
+			textureShader.setVec3("viewPos", renderer->camera->eye);
+			textureShader.setVec3("lightPos", glm::vec3(2.0f, 2.0f, 2.0f));
+			textureShader.setVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
             
             renderer->DrawTriangles(cube->cubeMesh);
-			model->render(*renderer);
+            if (normandy->isLoaded()) {
+				normandy->render(*renderer);
+            }
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
@@ -89,7 +103,8 @@ private:
             glfwPollEvents();
         }
         delete cube;
-		delete model;
+		// delete model;
+		delete normandy;
         glfwTerminate();
     }
 

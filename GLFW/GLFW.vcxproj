@@ -105,6 +105,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;C:\Users\madha\OneDrive\Documents\Visual Studio 2022\Libraries\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +123,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;C:\Users\madha\OneDrive\Documents\Visual Studio 2022\Libraries\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,6 +169,7 @@
   <ItemGroup>
     <None Include="src\FragmentShaders\BlinkingShader.fs" />
     <None Include="src\FragmentShaders\DefaultFragmentShader.fs" />
+    <None Include="src\FragmentShaders\TextureShader.fs" />
     <None Include="src\VertexShaders\DefaultVertexShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

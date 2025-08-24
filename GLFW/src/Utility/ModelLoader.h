@@ -15,6 +15,6 @@ public:
 private:
 	static Mesh* processMesh(aiMesh* mesh, const aiScene* scene, Shader& shader);
 	static std::unique_ptr<SceneNode> processNode(aiNode* node, const aiScene* scene, Shader& shader);
-	static std::vector<Material*> loadMaterials(const aiScene* scene);
+	static std::vector<Material*> loadMaterials(const aiScene* scene, const std::string& directory);
 	static glm::vec3 quatToEuler(const aiQuaternion& q);
 };

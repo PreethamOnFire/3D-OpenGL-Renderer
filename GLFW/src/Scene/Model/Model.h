@@ -14,6 +14,8 @@ class Model {
 private:
 	std::string filePath;
 	std::unique_ptr<SceneNode> rootNode;
+	void updateRootNodeTransform();
+	Shader* shader;
 public:
 	std::vector<Material*> materials;
 	glm::vec3 position;
@@ -32,7 +34,7 @@ public:
 	SceneNode* getRootNode() const;
 	SceneNode* findNode(const std::string& name);
 
+	bool isLoaded() const;
 
-	void updateModelMatrix();
 	void render(Renderer& renderer);
 };

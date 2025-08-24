@@ -7,6 +7,11 @@
 #include "ModelLoader.h"
 #include <assimp/mesh.h>
 #include "../BufferObjects/Vertex.h"
+#include "../Utility/TextureLoader.h"
+#include <filesystem>
+#include <iostream>
+
+std::vector<Texture> TextureLoader::loadedTextures;
 
 Mesh* ModelLoader::loadModel(const std::string& filePath, Shader& shader) {
     auto result = loadHierarchicalModel(filePath, shader);
@@ -36,7 +41,9 @@ std::pair<std::unique_ptr<SceneNode>, std::vector<Material*>> ModelLoader::loadH
         return { nullptr, materials };
     }
 
-	materials = loadMaterials(scene);
+    std::string directory = std::filesystem::path(filePath).parent_path().string();
+
+	materials = loadMaterials(scene, directory);
 	auto rootNode = processNode(scene->mRootNode, scene, shader);
 	return { std::move(rootNode), materials };
 }
@@ -105,7 +112,7 @@ std::unique_ptr<SceneNode> ModelLoader::processNode(aiNode* node, const aiScene*
 	return sceneNode;
 }
 
-std::vector<Material*> ModelLoader::loadMaterials(const aiScene* scene) {
+std::vector<Material*> ModelLoader::loadMaterials(const aiScene* scene, const std::string& directory) {
     std::vector<Material*> materials;
     for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
         aiMaterial* aiMat = scene->mMaterials[i];
@@ -129,6 +136,22 @@ std::vector<Material*> ModelLoader::loadMaterials(const aiScene* scene) {
         if (AI_SUCCESS == aiMat->Get(AI_MATKEY_SHININESS, shininess)) {
             material->shininess = shininess;
         }
+
+        std::vector<Texture> diffuseMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_DIFFUSE, "diffuse", directory);
+        for (auto& texture : diffuseMaps) {
+            material->addTexture(texture);
+        }
+
+		std::vector<Texture> specularMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_SPECULAR, "specular", directory);
+        for (auto& texture : specularMaps) {
+            material->addTexture(texture);
+        }
+
+		std::vector<Texture> normalMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_HEIGHT, "normal", directory);
+        for (auto& texture : normalMaps) {
+            material->addTexture(texture);
+        }
+
 		materials.push_back(material);
     }
 
