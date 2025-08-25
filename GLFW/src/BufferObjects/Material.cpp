@@ -14,17 +14,14 @@ void Material::bindTextures(Shader& shader) const {
 	for (const auto& texture : textures) {
 		if (texture.id == 0) continue;
 		if (texture.type == "diffuse") {
-			std::cout << "Binding diffuse texture ID " << texture.id << " to unit " << diffuseUnit << std::endl;
 			glActiveTexture(GL_TEXTURE0 + diffuseUnit);
 			glBindTexture(GL_TEXTURE_2D, texture.id);
 		}
 		else if (texture.type == "specular") {
-			std::cout << "Binding specular texture ID " << texture.id << " to unit " << specularUnit << std::endl;
 			glActiveTexture(GL_TEXTURE0 + specularUnit);
 			glBindTexture(GL_TEXTURE_2D, texture.id);
 		}
 		else if (texture.type == "normal") {
-			std::cout << "Binding normal texture ID " << texture.id << " to unit " << normalUnit << std::endl;
 			glActiveTexture(GL_TEXTURE0 + normalUnit);
 			glBindTexture(GL_TEXTURE_2D, texture.id);
 		}

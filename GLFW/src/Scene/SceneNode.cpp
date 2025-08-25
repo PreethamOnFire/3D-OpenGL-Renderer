@@ -93,24 +93,13 @@ void SceneNode::render(Renderer& renderer, const std::vector<Material*>& materia
         Mesh* mesh = meshes[i];
         if (mesh) {
 			Material* material = nullptr;
-            if (i < materialIndices.size() && materialIndices[i] >= 0 && materialIndices[i] < materialIndices[i]) {
+            if (i < materialIndices.size() && materialIndices[i] >= 0 && materialIndices[i] < materials.size()) {
 				material = materials[materialIndices[i]];
             }
             if (material && mesh->shader) {
 				material->bindTextures(*mesh->shader);
 				material->setUniforms(*mesh->shader);
 
-                const auto& textures = material->getTextures();
-                bool hasDiffuse = false, hasSpecular = false, hasNormal = false;
-
-                for (const auto& texture : textures) {
-                    if (texture.type == "diffuse") hasDiffuse = true;
-                    else if (texture.type == "specular") hasSpecular = true;
-                    else if (texture.type == "normal") hasNormal = true;
-				}
-                mesh->shader->setBool("material.hasDiffuseMap", hasDiffuse);
-                mesh->shader->setBool("material.hasSpecularMap", hasSpecular);
-				mesh->shader->setBool("material.hasNormalMap", hasNormal);
             }
 			renderer.DrawTriangles(*mesh);
             if (material) {
