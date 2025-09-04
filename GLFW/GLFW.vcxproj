@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;C:\Users\madha\OneDrive\Documents\Visual Studio 2022\Libraries\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;C:\Users\madha\OneDrive\Documents\Visual Studio 2022\Libraries\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
