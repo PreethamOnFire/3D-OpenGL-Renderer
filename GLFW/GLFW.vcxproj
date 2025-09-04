@@ -135,7 +135,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Applcation.cpp" />
-    <ClCompile Include="src\BufferObjects\DefaultObjects\Cube.cpp" />
     <ClCompile Include="src\BufferObjects\IndexBuffer.cpp" />
     <ClCompile Include="src\BufferObjects\Material.cpp" />
     <ClCompile Include="src\BufferObjects\Mesh.cpp" />
@@ -152,7 +151,6 @@
     <ClCompile Include="src\Utility\TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\BufferObjects\DefaultObjects\Cube.h" />
     <ClInclude Include="src\BufferObjects\IndexBuffer.h" />
     <ClInclude Include="src\BufferObjects\Material.h" />
     <ClInclude Include="src\BufferObjects\Mesh.h" />

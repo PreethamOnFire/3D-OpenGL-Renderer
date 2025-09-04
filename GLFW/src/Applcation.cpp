@@ -2,7 +2,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../src/BufferObjects/Mesh.h"
-#include "../src/BufferObjects/DefaultObjects/Cube.h"
 #include "Shader.h"
 #include "Renderer.h"
 #include "Scene/Model/Model.h"
