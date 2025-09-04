@@ -57,6 +57,12 @@
     <ClCompile Include="src\Scene\SceneNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scene\SkyBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h">
@@ -104,11 +110,22 @@
     <ClInclude Include="src\Scene\SceneNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scene\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\SkyBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\VertexShaders\DefaultVertexShader.vs" />
     <None Include="src\FragmentShaders\DefaultFragmentShader.fs" />
     <None Include="src\FragmentShaders\BlinkingShader.fs" />
     <None Include="src\FragmentShaders\TextureShader.fs" />
+    <None Include="src\VertexShaders\SkyBoxVertexShader.vs" />
+    <None Include="src\FragmentShaders\SkyBoxFragmentShader.fs" />
   </ItemGroup>
 </Project>

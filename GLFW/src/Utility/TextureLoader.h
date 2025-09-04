@@ -16,5 +16,5 @@ public:
 	static std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		const std::string& typeName,
 		const std::string& directory);
-	void loadCubeMap(const std::vector<std::string>& faces, const std::string& directory, bool gamma = false);
+	static unsigned int loadCubeMap(const std::vector<std::string>& faces, const std::string& directory, bool gamma = false);
 };
