@@ -21,8 +21,9 @@ void Camera::setViewMatrix() {
 	viewMatrix = glm::lookAt(eye, at, up);
 }
 
-void Camera::updateProjectionMatrix(int width, int height) {
-	projectionMatrix = glm::perspective(fov, float(width / height), 0.1f, 1000.0f);
+void Camera::updateProjectionMatrix(float width, float height) {
+	float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
+	projectionMatrix = glm::perspective(fov, aspectRatio, 0.1f, 1000.0f);
 }
 
 void Camera::moveForward() {

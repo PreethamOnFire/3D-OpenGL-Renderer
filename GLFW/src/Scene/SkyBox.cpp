@@ -70,10 +70,11 @@ SkyBox::~SkyBox() {
 void SkyBox::render(Camera& camera) {
     glDepthFunc(GL_LEQUAL);  
     shader->use();
+	shader->setInt("skybox", 0);
     glm::mat4 view = glm::mat4(glm::mat3(camera.viewMatrix)); 
     glm::mat4 projection = camera.projectionMatrix;
-    shader->setMat4("view", view);
-    shader->setMat4("projection", projection);
+    shader->setMat4("viewMatrix", view);
+    shader->setMat4("projectionMatrix", projection);
     VAO->bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);

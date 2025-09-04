@@ -85,7 +85,7 @@ private:
 
         scene->addPointLight(glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
         scene->addDirectionalLight(
-            glm::vec3(-0.3f, -1.0f, -0.5f),
+            glm::vec3(0.3f, 1.0f, 0.5f),
             glm::vec3(1.0f, 0.95f, 0.8f),
             1.0f
         );

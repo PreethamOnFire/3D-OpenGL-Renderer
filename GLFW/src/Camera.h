@@ -20,7 +20,7 @@ public:
 	void panLeft();
 	void panRight();
 	void handleMouse();
-	void updateProjectionMatrix(int width, int height);
+	void updateProjectionMatrix(float width, float height);
 
 private:
 	void setViewMatrix();

@@ -132,6 +132,10 @@ unsigned int TextureLoader::loadCubeMap(const std::vector<std::string>& faces, c
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
+	if (textureID == 0) {
+		std::cerr << "TextureLoader: Failed to load cubemap at directory: " << directory << std::endl;
+	}
+
 	return textureID;
 }
 
