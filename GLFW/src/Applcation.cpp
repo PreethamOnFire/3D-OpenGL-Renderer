@@ -108,12 +108,15 @@ private:
             /* Poll for and process events */
             glfwPollEvents();
         }
-        delete scene;
-        glfwTerminate();
     }
 
     void cleanup() {
         delete renderer;
+        delete scene;
+		delete skyBoxShader;
+        delete ObjectShader;
+        glfwDestroyWindow(window);
+		glfwTerminate();
     }
 };
 
