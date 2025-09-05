@@ -49,6 +49,7 @@ void Renderer::GetInput() {
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
         camera->panLeft();
     }
+	camera->handleMouse();
 }
 
 void Renderer::DrawTriangles(Mesh &mesh) {

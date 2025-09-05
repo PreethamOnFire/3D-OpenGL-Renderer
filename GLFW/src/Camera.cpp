@@ -7,7 +7,10 @@
 
 Camera::Camera(GLFWwindow& window) {
 	fov = 100.0f;
-	speed = 0.01f;
+	speed = 0.1f;
+	yaw = -90.0f;   
+	pitch = 0.0f;
+	firstMouse = true;
 	eye = glm::vec3(0, 0, 0);
 	at = glm::vec3(0, 0, -1);
 	up = glm::vec3(0, 1, 0);
@@ -85,5 +88,43 @@ void Camera::panLeft() {
 	f = eye;
 	f += fPrime;
 	at = f;
+	setViewMatrix();
+}
+
+void Camera::handleMouse() {
+	double xpos, ypos;
+	glfwGetCursorPos(glfwGetCurrentContext(), &xpos, &ypos);
+	if (firstMouse) {
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = ypos - lastY; 
+	lastX = xpos;
+	lastY = ypos;
+
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw -= xoffset;
+	pitch += yoffset;
+
+	if (pitch > 89.0f) pitch = 89.0f;
+	if (pitch < -89.0f) pitch = -89.0f;
+
+	updateCameraVectors();
+}
+
+void Camera::updateCameraVectors() {
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+
+	glm::vec3 direction = glm::normalize(front);
+	at = eye + direction;
+
 	setViewMatrix();
 }

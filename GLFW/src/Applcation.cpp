@@ -82,9 +82,11 @@ private:
         normandy->setPosition(glm::vec3(0.0f, -1.0f, -5.0f));
         normandy->setScale(glm::vec3(0.001f, -0.001f, 0.001f));
 		Model* Tower = scene->addModel("Tower", "assets/models/Tower/scene.gltf", *ObjectShader);
-		Tower->setRotation(glm::vec3(90.0f, 0.0f, 90.0f));
-        Tower->setPosition(glm::vec3(0.0f, 3.0f, 0.0f));
-		Tower->setScale(glm::vec3(0.001f, 0.001f, 0.001f));
+		// Tower->setRotation(glm::vec3(90.0f, 90.0f, 0.0f));
+		Tower->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
+		Tower->setScale(glm::vec3(0.001f, -0.001f, 0.001f));
+		Model* island = scene->addModel("Island", "assets/models/Island/Island.obj", *ObjectShader);
+		island->setScale(glm::vec3(1.0f, -1.0f, 1.0f));
 
         scene->addPointLight(glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
         scene->addDirectionalLight(
@@ -92,6 +94,10 @@ private:
             glm::vec3(1.0f, 0.95f, 0.8f),
             1.0f
         );
+    }
+
+    void update() {
+   
     }
 
     void mainLoop() {

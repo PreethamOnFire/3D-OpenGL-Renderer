@@ -7,11 +7,16 @@ class Camera {
 public:
 	float fov;
 	float speed;
+	float yaw;
+	float pitch;
+	float sensitivity = 0.1f;
+	bool firstMouse;
 	glm::vec3 eye;
 	glm::vec3 at;
 	glm::vec3 up;
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
+	double lastX, lastY;
 	Camera(GLFWwindow &window);
 	void moveForward();
 	void moveBackwards();
@@ -24,4 +29,5 @@ public:
 
 private:
 	void setViewMatrix();
+	void updateCameraVectors();
 };
