@@ -79,14 +79,14 @@ private:
         monkey->setPosition(glm::vec3(0.0f, 0.0f, 5.0f));
         monkey->setScale(glm::vec3(0.8f, -0.8f, 0.8f));
 		Model* normandy = scene->addModel("Normandy", "assets/models/Normandy/Normandy.obj", *ObjectShader);
-        normandy->setPosition(glm::vec3(0.0f, -1.0f, -5.0f));
+        normandy->setPosition(glm::vec3(0.0f, -13.0f, -6.0f));
         normandy->setScale(glm::vec3(0.001f, -0.001f, 0.001f));
 		Model* Tower = scene->addModel("Tower", "assets/models/Tower/scene.gltf", *ObjectShader);
-		// Tower->setRotation(glm::vec3(90.0f, 90.0f, 0.0f));
-		Tower->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
+		Tower->setRotation(glm::vec3(80.0f, 0.0f, 0.0f));
+		Tower->setPosition(glm::vec3(-6.0f, -4.0f, 6.0f));
 		Tower->setScale(glm::vec3(0.001f, -0.001f, 0.001f));
 		Model* island = scene->addModel("Island", "assets/models/Island/Island.obj", *ObjectShader);
-		island->setScale(glm::vec3(1.0f, -1.0f, 1.0f));
+		island->setScale(glm::vec3(10.0f, -10.0f, 10.0f));
 
         scene->addPointLight(glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
         scene->addDirectionalLight(
@@ -96,15 +96,21 @@ private:
         );
     }
 
-    void update() {
-   
+    void update(float time) {
+		Model* normandy = scene->getModel("Normandy");
+        if (normandy) {
+			normandy->translate(glm::vec3(0.0f, 0.01f * sin(time), 0.0f));
+        }
     }
 
     void mainLoop() {
-        
+		float lastFrame = 0.0f;
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
-        {
+        {   
+			float currentFrame = static_cast<float>(glfwGetTime());
+			lastFrame = currentFrame;
+			update(currentFrame);
             /* Render here */
             renderer->Clear();
 
