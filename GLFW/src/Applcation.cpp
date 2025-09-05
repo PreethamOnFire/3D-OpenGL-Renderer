@@ -81,6 +81,10 @@ private:
 		Model* normandy = scene->addModel("Normandy", "assets/models/Normandy/Normandy.obj", *ObjectShader);
         normandy->setPosition(glm::vec3(0.0f, -1.0f, -5.0f));
         normandy->setScale(glm::vec3(0.001f, -0.001f, 0.001f));
+		Model* Tower = scene->addModel("Tower", "assets/models/Tower/scene.gltf", *ObjectShader);
+		Tower->setRotation(glm::vec3(90.0f, 0.0f, 90.0f));
+        Tower->setPosition(glm::vec3(0.0f, 3.0f, 0.0f));
+		Tower->setScale(glm::vec3(0.001f, 0.001f, 0.001f));
 
         scene->addPointLight(glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
         scene->addDirectionalLight(

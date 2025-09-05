@@ -121,10 +121,11 @@ Light* Scene::addSpotLight(const glm::vec3& pos, const glm::vec3& dir, const glm
 	return &lights.back();
 }
 
-void Scene::updateLightUniforms(Shader& shader) {
+void Scene::updateLightUniforms(Shader& shader, glm::vec3& viewPos) {
 	shader.use();
 	shader.setVec3("ambientLight", ambientLight);
 	shader.setInt("numLights", static_cast<int>(lights.size()));
+	shader.setVec3("viewPos", viewPos);
 	for (size_t i = 0; i < lights.size(); i++) {
 		std::string base = "lights[" + std::to_string(i) + "]";
 		shader.setInt(base + ".type", static_cast<int>(lights[i].type));
@@ -153,13 +154,14 @@ void Scene::clearLights() {
 }
 
 void Scene::render(Renderer& renderer) {
+	Camera* cam = renderer.camera;
 	if (skybox) {
-		skybox->render(*renderer.camera);
+		skybox->render(*cam);
 	}
 	for (const auto& model : models) {
 		if (model && model->isLoaded()) {
 			if (model->shader) {
-				updateLightUniforms(*model->shader);
+				updateLightUniforms(*model->shader, cam->eye);
 			}
 			model->render(renderer);
 		}

@@ -21,6 +21,7 @@ Model::Model(const std::string& name, const std::string& filePath, Shader& shade
 	for (size_t i = 0; i < materials.size(); ++i) {
 		if (!materials[i]) {
 			std::cerr << "ERROR: Material " << i << " is null!" << std::endl;
+			materials[i] = new Material();
 		}
 		else {
 			std::cout << "Material " << i << " has " << materials[i]->getTextures().size() << " textures" << std::endl;

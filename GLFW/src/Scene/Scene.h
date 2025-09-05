@@ -16,7 +16,7 @@ private:
 	std::unique_ptr<SkyBox> skybox;
 
 	glm::vec3 ambientLight;
-	void updateLightUniforms(Shader& shader);
+	void updateLightUniforms(Shader& shader, glm::vec3& viewPos);
 public:
 	Scene();
 	~Scene();

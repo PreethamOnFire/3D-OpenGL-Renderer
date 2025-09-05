@@ -68,7 +68,8 @@ void main()
         }
     }
 
-    FragColor = vec4(result, 1.0);
+    FragColor = vec4(result, 1.0) * 1.8;
+
 }
 
 vec3 calculateDirectionalLight(Light light, vec3 normal, vec3 viewDir, vec3 materialDiffuse, vec3 materialSpecular) {

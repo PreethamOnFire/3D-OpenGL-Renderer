@@ -6,13 +6,17 @@
 #include "Material.h"
 
 void Material::addTexture(const Texture& texture) {
+	if (texture.id == 0) return;
 	textures.push_back(texture);
 }
 
 void Material::bindTextures(Shader& shader) const {
 	int diffuseUnit = 0, specularUnit = 1, normalUnit = 2;
 	for (const auto& texture : textures) {
-		if (texture.id == 0) continue;
+		if (texture.id == 0) {
+			std::cerr << "Warning: Attempting to bind a texture with ID 0." << std::endl;
+			continue;
+		}
 		if (texture.type == "diffuse") {
 			glActiveTexture(GL_TEXTURE0 + diffuseUnit);
 			glBindTexture(GL_TEXTURE_2D, texture.id);
@@ -45,9 +49,11 @@ void Material::setUniforms(Shader& shader) const {
 	bool hasDiffuse = false, hasSpecular = false, hasNormal = false;
 
 	for (const auto& texture : textures) {
-		if (texture.type == "diffuse") hasDiffuse = true;
-		else if (texture.type == "specular") hasSpecular = true;
-		else if (texture.type == "normal") hasNormal = true;
+		if (texture.id != 0) {
+			if (texture.type == "diffuse") hasDiffuse = true;
+			else if (texture.type == "specular") hasSpecular = true;
+			else if (texture.type == "normal") hasNormal = true;
+		}
 	}
 
 	shader.setBool("material.hasDiffuseMap", hasDiffuse);

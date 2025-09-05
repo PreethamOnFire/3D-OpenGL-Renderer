@@ -52,6 +52,9 @@ public:
 		light.position = pos;
 		light.color = col;
 		light.intensity = intensity;
+		light.constant = 1.0f;
+		light.linear = 0.09f;
+		light.quadratic = 0.032f;
 		return light;
 	}
 
