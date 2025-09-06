@@ -5,6 +5,9 @@ Another goal of the project was to make the code a lot more reusable and modular
 I wanted to make sure that I can have an environment that I can easily add more features and explore other graphics topics, such as Procedural Generation.
 
 ## Demos
+### Simple 3D Day Scene
+[![https://youtu.be/lYOe-wyHsb4](https://img.youtube.com/vi/lYOe-wyHsb/0.jpg)](https://www.youtube.com/watch?v=lYOe-wyHsb)
+https://youtu.be/lYOe-wyHsb4
 I will be adding additional demos in this section when I get to it.
 
 ## Technical Implementation
