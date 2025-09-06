@@ -6,7 +6,7 @@ I wanted to make sure that I can have an environment that I can easily add more 
 
 ## Demos
 ### Simple 3D Day Scene
-[![https://youtu.be/lYOe-wyHsb4](https://img.youtube.com/vi/lYOe-wyHsb/0.jpg)](https://www.youtube.com/watch?v=lYOe-wyHsb)
+[![](https://img.youtube.com/vi/lYOe-wyHsb/0.jpg)](https://www.youtube.com/watch?v=lYOe-wyHsb)
 https://youtu.be/lYOe-wyHsb4
 I will be adding additional demos in this section when I get to it.
 
