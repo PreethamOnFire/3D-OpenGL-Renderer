@@ -46,6 +46,7 @@ Here are the previous projects that I worked on that led me to this point. They 
 
 ## Blocky Toothless
 <img width="690" height="652" alt="Screenshot 2025-09-05 165333" src="https://github.com/user-attachments/assets/01a6522e-3ed8-4ce2-928d-4d386f6f17fb" />
+
 Link: https://github.com/PreethamOnFire/CSE160-Assignment2
 
 ## Blocky Severance Office
