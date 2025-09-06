@@ -6,7 +6,7 @@ I wanted to make sure that I can have an environment that I can easily add more 
 
 ## Demos
 ### Simple 3D Day Scene
-<iframe width="560" height="315" src="[https://www.youtube.com/embed/video-i](https://youtu.be/lYOe-wyHsb4)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://youtu.be/lYOe-wyHsb4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 https://youtu.be/lYOe-wyHsb4
 
 I will be adding additional demos in this section when I get to it.
