@@ -4,10 +4,10 @@
 #include <string>
 #include <unordered_map>
 #include "Light.h"
-#include "Skybox.h"
-#include "../Renderer.h"
-#include "../Shader.h"
-#include "Model/Model.h"
+#include "SkyBox.h"
+#include "../Core/Renderer.h"
+#include "../Core/Shader.h"
+#include "Model.h"
 
 class Scene {
 private:
@@ -16,11 +16,11 @@ private:
 	std::unique_ptr<SkyBox> skybox;
 
 	glm::vec3 ambientLight;
-	void updateLightUniforms(Shader& shader, glm::vec3& viewPos);
+	void updateLightUniforms(Shader& shader, const glm::vec3& viewPos);
 public:
 	Scene();
 	~Scene();
-	void setSkybox(const std::vector<std::string>& faces, std::string& directory, Shader& shader);
+	void setSkybox(const std::vector<std::string>& faces, const std::string& directory, Shader& shader);
 	void removeSkybox();
 	bool hasSkybox() const;
 
@@ -28,6 +28,7 @@ public:
 	Model* addCube(const std::string& name, Shader& shader);
 	Model* addSphere(const std::string& name, Shader& shader, int segments = 32);
 	Model* addPlane(const std::string& name, Shader& shader, float width = 1.0f, float height = 1.0f, unsigned int segments = 1);
+	Model* addWaterPlane(const std::string& name, Shader& shader, float width = 1.0f, float height = 1.0f, unsigned int segments = 1);
 	Model* addCustomModel(std::unique_ptr<Model> model);
 
 	bool removeModel(unsigned int id);

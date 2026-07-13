@@ -19,16 +19,27 @@ Model* Scene::addCube(const std::string& name, Shader& shader) {
 }
 
 Model* Scene::addSphere(const std::string& name, Shader& shader, int segments) {
-	auto sphere = std::make_unique<Model>(name, ModelType::PRIMITIVE_SPHERE, shader);
+	auto sphere = std::make_unique<Model>(name, ModelType::PRIMITIVE_SPHERE, shader, 1.0f, 1.0f, segments);
 	Model* ptr = sphere.get();
 	models.push_back(std::move(sphere));
 	return ptr;
 }
 
 Model* Scene::addPlane(const std::string& name, Shader& shader, float width, float height, unsigned int segments) {
-	auto plane = std::make_unique<Model>(name, ModelType::PRIMITIVE_PLANE, shader);
+	auto plane = std::make_unique<Model>(name, ModelType::PRIMITIVE_PLANE, shader, width, height, static_cast<int>(segments));
 	Model* ptr = plane.get();
 	models.push_back(std::move(plane));
+	return ptr;
+}
+
+Model* Scene::addWaterPlane(const std::string& name, Shader& shader, float width, float height, unsigned int segments) {
+	auto waterPlane = std::make_unique<Model>(name, ModelType::PRIMITIVE_PLANE, shader);
+	if (Material* m = waterPlane->getMaterial(0)) {
+		m->diffuse = glm::vec3(0.1f, 0.3f, 0.6f);
+		m->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+	}
+	Model* ptr = waterPlane.get();
+	models.push_back(std::move(waterPlane));
 	return ptr;
 }
 
@@ -56,7 +67,7 @@ Model* Scene::addCustomModel(std::unique_ptr<Model> model) {
 Model* Scene::getModel(unsigned int id) {
 	auto it = std::find_if(models.begin(), models.end(),
 		[id](const std::unique_ptr<Model>& model) {
-			return model->id == id;
+			return model->getId() == id;
 		});
 
 	return (it != models.end()) ? it->get() : nullptr;
@@ -65,7 +76,7 @@ Model* Scene::getModel(unsigned int id) {
 Model* Scene::getModel(const std::string& name) {
 	auto it = std::find_if(models.begin(), models.end(),
 		[name](const std::unique_ptr<Model>& model) {
-			return model->name == name;
+			return model->getName() == name;
 		});
 	return (it != models.end()) ? it->get() : nullptr;
 }
@@ -73,7 +84,7 @@ Model* Scene::getModel(const std::string& name) {
 bool Scene::removeModel(unsigned int id) {
 	auto it = std::remove_if(models.begin(), models.end(),
 		[id](const std::unique_ptr<Model>& model) {
-			return model->id == id;
+			return model->getId() == id;
 		});
 	if (it != models.end()) {
 		models.erase(it, models.end());
@@ -85,7 +96,7 @@ bool Scene::removeModel(unsigned int id) {
 bool Scene::removeModel(const std::string& name) {
 	auto it = std::remove_if(models.begin(), models.end(),
 		[name](const std::unique_ptr<Model>& model) {
-			return model->name == name;
+			return model->getName() == name;
 		});
 	if (it != models.end()) {
 		models.erase(it, models.end());
@@ -94,7 +105,7 @@ bool Scene::removeModel(const std::string& name) {
 	return false;
 }
 
-void Scene::setSkybox(const std::vector<std::string>& faces, std::string& directory, Shader& shader) {
+void Scene::setSkybox(const std::vector<std::string>& faces, const std::string& directory, Shader& shader) {
 	skybox = std::make_unique<SkyBox>(faces, directory, shader);
 }
 
@@ -121,7 +132,7 @@ Light* Scene::addSpotLight(const glm::vec3& pos, const glm::vec3& dir, const glm
 	return &lights.back();
 }
 
-void Scene::updateLightUniforms(Shader& shader, glm::vec3& viewPos) {
+void Scene::updateLightUniforms(Shader& shader, const glm::vec3& viewPos) {
 	shader.use();
 	shader.setVec3("ambientLight", ambientLight);
 	shader.setInt("numLights", static_cast<int>(lights.size()));
@@ -154,14 +165,15 @@ void Scene::clearLights() {
 }
 
 void Scene::render(Renderer& renderer) {
-	Camera* cam = renderer.camera;
+	Camera& cam = renderer.getCamera();
 	if (skybox) {
-		skybox->render(*cam);
+		skybox->render(cam);
 	}
 	for (const auto& model : models) {
 		if (model && model->isLoaded()) {
-			if (model->shader) {
-				updateLightUniforms(*model->shader, cam->eye);
+			if (Shader* shader = model->getShader()) {
+				updateLightUniforms(*shader, cam.getEye());
+				renderer.bindGlobalUniforms(*shader);
 			}
 			model->render(renderer);
 		}

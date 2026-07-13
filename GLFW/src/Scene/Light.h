@@ -8,8 +8,6 @@ enum class LightType {
 };
 
 class Light {
-private:
-
 public:
 	LightType type;
 	glm::vec3 position;

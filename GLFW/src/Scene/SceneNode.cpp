@@ -3,9 +3,9 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "../BufferObjects/Mesh.h"
-#include "../BufferObjects/Material.h"
-#include "../Renderer.h"
+#include "../Rendering/Mesh.h"
+#include "../Rendering/Material.h"
+#include "../Core/Renderer.h"
 #include "SceneNode.h"
 
 SceneNode::SceneNode(const std::string& nodeName)
@@ -14,18 +14,19 @@ SceneNode::SceneNode(const std::string& nodeName)
     updateLocalTransform();
 }
 
-SceneNode::~SceneNode() {
-    for (auto& mesh : meshes) {
-        delete mesh;
-    }
+void SceneNode::addMesh(std::unique_ptr<Mesh> mesh, int materialIndex) {
+    meshes.push_back(std::move(mesh));
+    materialIndices.push_back(materialIndex);
 }
+
+SceneNode::~SceneNode() = default;
 
 void SceneNode::addChild(std::unique_ptr<SceneNode> child) {
     child->parent = this;
     children.push_back(std::move(child));
 }
 
-SceneNode* SceneNode::findChild(const std::string name) {
+SceneNode* SceneNode::findChild(const std::string& name) {
     for (auto& child : children) {
         if (child->name == name) {
             return child.get();
@@ -79,8 +80,8 @@ void SceneNode::updateLocalTransform() {
 void SceneNode::updateGlobalTransform(const glm::mat4& parentTransform) {
     globalTransform = parentTransform * localTransform;
     for (auto& mesh : meshes) {
-        if (mesh && mesh->modelMatrix) {
-            *mesh->modelMatrix = globalTransform;
+        if (mesh) {
+            mesh->updateModelMatrix(globalTransform);
         }
     }
     for (auto& child : children) {
@@ -88,20 +89,19 @@ void SceneNode::updateGlobalTransform(const glm::mat4& parentTransform) {
     }
 }
 
-void SceneNode::render(Renderer& renderer, const std::vector<Material*>& materials) {
+void SceneNode::render(Renderer& renderer, const std::vector<std::unique_ptr<Material>>& materials) {
     for (size_t i = 0; i < meshes.size(); ++i) {
-        Mesh* mesh = meshes[i];
+        Mesh* mesh = meshes[i].get();
         if (mesh) {
 			Material* material = nullptr;
             if (i < materialIndices.size() && materialIndices[i] >= 0 && materialIndices[i] < materials.size()) {
-				material = materials[materialIndices[i]];
+				material = materials[materialIndices[i]].get();
             }
-            if (material && mesh->shader) {
-				material->bindTextures(*mesh->shader);
-				material->setUniforms(*mesh->shader);
-
+            if (material && mesh->getShader()) {
+                material->bindTextures(*mesh->getShader());
+                material->setUniforms(*mesh->getShader());
             }
-			renderer.DrawTriangles(*mesh);
+			renderer.drawTriangles(*mesh);
             if (material) {
                 material->unbindTextures();
             }
