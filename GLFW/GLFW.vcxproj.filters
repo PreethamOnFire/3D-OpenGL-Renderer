@@ -60,7 +60,13 @@
     <ClCompile Include="src\Core\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Shader.cpp">
+    <ClCompile Include="src\Core\ShaderPipeline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\ShaderPipelineLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\MaterialLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene\Model.cpp">
@@ -95,6 +101,9 @@
     <ClInclude Include="src\Rendering\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rendering\MaterialLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\Loaders\TextureLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -125,7 +134,10 @@
     <ClInclude Include="src\Core\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Shader.h">
+    <ClInclude Include="src\Core\ShaderPipeline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\ShaderPipelineLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene\Model.h">

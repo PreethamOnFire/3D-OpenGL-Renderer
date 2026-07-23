@@ -3,7 +3,6 @@
 #include <vector>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
-#include "../Core/Shader.h"
 #include <assimp/material.h>
 #include "../Rendering/Material.h"
 

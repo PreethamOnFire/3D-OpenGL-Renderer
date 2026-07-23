@@ -1,22 +1,13 @@
 #include "Mesh.h"
 #include <vector>
 #include <memory>
+#include <GL/glew.h>
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
-#include "../Core/Shader.h"
 #include <glm/mat4x4.hpp>
 
-Mesh::Mesh(const float* positions, size_t posSize, const unsigned int* indices, size_t indSize, Shader& shader, const std::vector<unsigned int>& layout, unsigned int count) {
-	this->shader = &shader;
-	VAO = std::make_unique<VertexArray>();
-	VBO = std::make_unique<VertexBuffer>(positions, posSize, false);
-	VAO->addVertexBuffer(*VBO, layout);
-	EBO = std::make_unique<IndexBuffer>(indices, indSize, false, count);
-}
-
-Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, Shader& shader) : vertices(vertices), indices(indices) {
-	this->shader = &shader;
+Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, std::string materialName) : vertices(vertices), indices(indices), materialName(std::move(materialName)) {
 	auto vertexData = Vertex::toFloatArray(vertices);
 	auto layout = Vertex::getLayout();
 	VAO = std::make_unique<VertexArray>();

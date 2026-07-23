@@ -1,64 +1,74 @@
-#include <string>
-#include <vector>
 #include <iostream>
-#include <GL/glew.h>
-#include <glm/glm.hpp>
-#include "../Core/Shader.h"
 #include "Material.h"
 
-void Material::addTexture(const Texture& texture) {
-	if (texture.id == 0) return;
-	textures.push_back(texture);
-	if (texture.type == "diffuse")  hasDiffuseMap = true;
-	else if (texture.type == "specular") hasSpecularMap = true;
-	else if (texture.type == "normal")   hasNormalMap = true;
+Material::Material(ShaderPipeline* pipeline) : pipeline(pipeline) {
 }
 
-void Material::bindTextures(Shader& shader) const {
-	int diffuseUnit = 0, specularUnit = 1, normalUnit = 2;
-	for (const auto& texture : textures) {
-		if (texture.id == 0) {
+void Material::setFloat(const std::string& name, float value) {
+	floatProps[name] = value;
+}
+
+void Material::setVec3(const std::string& name, const glm::vec3& value) {
+	vec3Props[name] = value;
+}
+
+void Material::setMat4(const std::string& name, const glm::mat4& value) {
+	mat4Props[name] = value;
+}
+
+void Material::setTexture(const std::string& type, const Texture& texture, int slot) {
+	if (texture.id == 0) return;
+
+	if (slot < 0) {
+		if (type == "diffuse") slot = 0;
+		else if (type == "specular") slot = 1;
+		else if (type == "normal") slot = 2;
+		else slot = 3 + static_cast<int>(textures.size());
+	}
+
+	textures.insert_or_assign(type, BoundTexture{ texture, slot });
+
+	if (type == "diffuse")  hasDiffuseMap = true;
+	else if (type == "specular") hasSpecularMap = true;
+	else if (type == "normal")   hasNormalMap = true;
+
+	textureList.clear();
+	for (const auto& [texType, bound] : textures) {
+		textureList.push_back(bound.tex);
+	}
+}
+
+void Material::bind() const {
+	pipeline->bind();
+
+	for (const auto& [name, value] : floatProps) pipeline->setFloat("material." + name, value);
+	for (const auto& [name, value] : vec3Props)  pipeline->setVec3("material." + name, value);
+	for (const auto& [name, value] : mat4Props)  pipeline->setMat4("material." + name, value);
+
+	pipeline->setBool("material.hasDiffuseMap", hasDiffuseMap);
+	pipeline->setBool("material.hasSpecularMap", hasSpecularMap);
+	pipeline->setBool("material.hasNormalMap", hasNormalMap);
+
+	for (const auto& [type, bound] : textures) {
+		if (bound.tex.id == 0) {
 			std::cerr << "Warning: Attempting to bind a texture with ID 0." << std::endl;
 			continue;
 		}
-		if (texture.type == "diffuse") {
-			glActiveTexture(GL_TEXTURE0 + diffuseUnit);
-			glBindTexture(GL_TEXTURE_2D, texture.id);
-		}
-		else if (texture.type == "specular") {
-			glActiveTexture(GL_TEXTURE0 + specularUnit);
-			glBindTexture(GL_TEXTURE_2D, texture.id);
-		}
-		else if (texture.type == "normal") {
-			glActiveTexture(GL_TEXTURE0 + normalUnit);
-			glBindTexture(GL_TEXTURE_2D, texture.id);
-		}
+		glActiveTexture(GL_TEXTURE0 + bound.slot);
+		glBindTexture(GL_TEXTURE_2D, bound.tex.id);
+		pipeline->setInt("material." + type + "0", bound.slot);
 	}
 }
 
-void Material::unbindTextures() const {
-	for (size_t i = 0; i < textures.size(); ++i) {
-		glActiveTexture(GL_TEXTURE0 + i);
+void Material::unbind() const {
+	for (const auto& [type, bound] : textures) {
+		glActiveTexture(GL_TEXTURE0 + bound.slot);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	glActiveTexture(GL_TEXTURE0); 
-}
-
-void Material::setUniforms(Shader& shader) const {
-	shader.setVec3("material.ambient", ambient);
-	shader.setVec3("material.diffuse", diffuse);
-	shader.setVec3("material.specular", specular);
-	shader.setFloat("material.shininess", shininess);
-
-	shader.setBool("material.hasDiffuseMap", hasDiffuseMap);
-	shader.setBool("material.hasSpecularMap", hasSpecularMap);
-	shader.setBool("material.hasNormalMap", hasNormalMap);
-
-	if (hasDiffuseMap)  shader.setInt("material.diffuse0", 0);
-	if (hasSpecularMap) shader.setInt("material.specular0", 1);
-	if (hasNormalMap)   shader.setInt("material.normal0", 2);
+	glActiveTexture(GL_TEXTURE0);
+	pipeline->restoreState();
 }
 
 const std::vector<Texture>& Material::getTextures() const {
-	return textures;
+	return textureList;
 }

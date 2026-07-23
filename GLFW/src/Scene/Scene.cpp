@@ -11,40 +11,40 @@ Scene::~Scene() {
 	skybox.reset();
 }
 
-Model* Scene::addCube(const std::string& name, Shader& shader) {
-	auto cube = std::make_unique<Model>(name, ModelType::PRIMITIVE_CUBE, shader);
+Model* Scene::addCube(const std::string& name, ShaderPipeline& pipeline, MaterialLibrary& materials) {
+	auto cube = std::make_unique<Model>(name, ModelType::PRIMITIVE_CUBE, pipeline, materials);
 	Model* ptr = cube.get();
 	models.push_back(std::move(cube));
 	return ptr;
 }
 
-Model* Scene::addSphere(const std::string& name, Shader& shader, int segments) {
-	auto sphere = std::make_unique<Model>(name, ModelType::PRIMITIVE_SPHERE, shader, 1.0f, 1.0f, segments);
+Model* Scene::addSphere(const std::string& name, ShaderPipeline& pipeline, MaterialLibrary& materials, int segments) {
+	auto sphere = std::make_unique<Model>(name, ModelType::PRIMITIVE_SPHERE, pipeline, materials, 1.0f, 1.0f, segments);
 	Model* ptr = sphere.get();
 	models.push_back(std::move(sphere));
 	return ptr;
 }
 
-Model* Scene::addPlane(const std::string& name, Shader& shader, float width, float height, unsigned int segments) {
-	auto plane = std::make_unique<Model>(name, ModelType::PRIMITIVE_PLANE, shader, width, height, static_cast<int>(segments));
+Model* Scene::addPlane(const std::string& name, ShaderPipeline& pipeline, MaterialLibrary& materials, float width, float height, unsigned int segments) {
+	auto plane = std::make_unique<Model>(name, ModelType::PRIMITIVE_PLANE, pipeline, materials, width, height, static_cast<int>(segments));
 	Model* ptr = plane.get();
 	models.push_back(std::move(plane));
 	return ptr;
 }
 
-Model* Scene::addWaterPlane(const std::string& name, Shader& shader, float width, float height, unsigned int segments) {
-	auto waterPlane = std::make_unique<Model>(name, ModelType::PRIMITIVE_PLANE, shader);
-	if (Material* m = waterPlane->getMaterial(0)) {
-		m->diffuse = glm::vec3(0.1f, 0.3f, 0.6f);
-		m->specular = glm::vec3(1.0f, 1.0f, 1.0f);
+Model* Scene::addWaterPlane(const std::string& name, ShaderPipeline& pipeline, MaterialLibrary& materials, float width, float height, unsigned int segments) {
+	auto waterPlane = std::make_unique<Model>(name, ModelType::PRIMITIVE_PLANE, pipeline, materials, width, height, static_cast<int>(segments));
+	if (Material* m = materials.get(name + "_default")) {
+		m->setVec3("diffuse", glm::vec3(0.1f, 0.3f, 0.6f));
+		m->setVec3("specular", glm::vec3(1.0f, 1.0f, 1.0f));
 	}
 	Model* ptr = waterPlane.get();
 	models.push_back(std::move(waterPlane));
 	return ptr;
 }
 
-Model* Scene::addModel(const std::string& name, const std::string& filePath, Shader& shader) {
-	auto model = std::make_unique<Model>(name, filePath, shader);
+Model* Scene::addModel(const std::string& name, const std::string& filePath, ShaderPipeline& pipeline, MaterialLibrary& materials) {
+	auto model = std::make_unique<Model>(name, filePath, pipeline, materials);
 	if (!model->isLoaded()) {
 		std::cerr << "Failed to load model: " << filePath << std::endl;
 		return nullptr;
@@ -105,8 +105,8 @@ bool Scene::removeModel(const std::string& name) {
 	return false;
 }
 
-void Scene::setSkybox(const std::vector<std::string>& faces, const std::string& directory, Shader& shader) {
-	skybox = std::make_unique<SkyBox>(faces, directory, shader);
+void Scene::setSkybox(const std::vector<std::string>& faces, const std::string& directory, ShaderPipeline& pipeline) {
+	skybox = std::make_unique<SkyBox>(faces, directory, pipeline);
 }
 
 void Scene::removeSkybox() {
@@ -132,23 +132,23 @@ Light* Scene::addSpotLight(const glm::vec3& pos, const glm::vec3& dir, const glm
 	return &lights.back();
 }
 
-void Scene::updateLightUniforms(Shader& shader, const glm::vec3& viewPos) {
-	shader.use();
-	shader.setVec3("ambientLight", ambientLight);
-	shader.setInt("numLights", static_cast<int>(lights.size()));
-	shader.setVec3("viewPos", viewPos);
+void Scene::updateLightUniforms(ShaderPipeline& pipeline, const glm::vec3& viewPos) {
+	pipeline.use();
+	pipeline.setVec3("ambientLight", ambientLight);
+	pipeline.setInt("numLights", static_cast<int>(lights.size()));
+	pipeline.setVec3("viewPos", viewPos);
 	for (size_t i = 0; i < lights.size(); i++) {
 		std::string base = "lights[" + std::to_string(i) + "]";
-		shader.setInt(base + ".type", static_cast<int>(lights[i].type));
-		shader.setVec3(base + ".position", lights[i].position);
-		shader.setVec3(base + ".direction", lights[i].direction);
-		shader.setVec3(base + ".color", lights[i].color);
-		shader.setFloat(base + ".intensity", lights[i].intensity);
-		shader.setFloat(base + ".constant", lights[i].constant);
-		shader.setFloat(base + ".linear", lights[i].linear);
-		shader.setFloat(base + ".quadratic", lights[i].quadratic);
-		shader.setFloat(base + ".cutOff", lights[i].cutOff);
-		shader.setFloat(base + ".outerCutOff", lights[i].outerCutOff);
+		pipeline.setInt(base + ".type", static_cast<int>(lights[i].type));
+		pipeline.setVec3(base + ".position", lights[i].position);
+		pipeline.setVec3(base + ".direction", lights[i].direction);
+		pipeline.setVec3(base + ".color", lights[i].color);
+		pipeline.setFloat(base + ".intensity", lights[i].intensity);
+		pipeline.setFloat(base + ".constant", lights[i].constant);
+		pipeline.setFloat(base + ".linear", lights[i].linear);
+		pipeline.setFloat(base + ".quadratic", lights[i].quadratic);
+		pipeline.setFloat(base + ".cutOff", lights[i].cutOff);
+		pipeline.setFloat(base + ".outerCutOff", lights[i].outerCutOff);
 	}
 }
 
@@ -164,18 +164,16 @@ void Scene::clearLights() {
 	lights.clear();
 }
 
-void Scene::render(Renderer& renderer) {
+void Scene::render(Renderer& renderer, const MaterialLibrary& materials, ShaderPipeline& lightingPipeline) {
 	Camera& cam = renderer.getCamera();
 	if (skybox) {
 		skybox->render(cam);
 	}
+	updateLightUniforms(lightingPipeline, cam.getEye());
+	renderer.bindGlobalUniforms(lightingPipeline);
 	for (const auto& model : models) {
 		if (model && model->isLoaded()) {
-			if (Shader* shader = model->getShader()) {
-				updateLightUniforms(*shader, cam.getEye());
-				renderer.bindGlobalUniforms(*shader);
-			}
-			model->render(renderer);
+			model->render(renderer, materials);
 		}
 	}
 }

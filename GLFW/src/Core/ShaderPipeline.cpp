@@ -4,9 +4,9 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include "Shader.h"
+#include "ShaderPipeline.h"
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath) : ID(0) {
+ShaderPipeline::ShaderPipeline(const char* vertexPath, const char* fragmentPath) : ID(0) {
 	std::string vertexCode;
 	std::string fragmentCode;
 	std::ifstream vShaderFile;
@@ -77,46 +77,76 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) : ID(0) {
 	glDeleteShader(fragment);
 }
 
-void Shader::use() const {
+void ShaderPipeline::use() const {
 	glUseProgram(ID);
 }
 
-void Shader::setBool(const std::string& name, bool value) const {
+void ShaderPipeline::bind() {
+	glUseProgram(ID);
+	applyState();
+}
+
+void ShaderPipeline::applyState() const {
+	if (depthTest) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
+	glDepthMask(depthWrite ? GL_TRUE : GL_FALSE);
+	if (blending) {
+		glEnable(GL_BLEND);
+		glBlendFunc(blendSrc, blendDst);
+	} else {
+		glDisable(GL_BLEND);
+	}
+	if (faceCulling) {
+		glEnable(GL_CULL_FACE);
+		glCullFace(cullFace);
+	} else {
+		glDisable(GL_CULL_FACE);
+	}
+}
+
+void ShaderPipeline::restoreState() const {
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_CULL_FACE);
+}
+
+void ShaderPipeline::setBool(const std::string& name, bool value) const {
 	GLint loc = glGetUniformLocation(ID, name.c_str());
 	if (loc != -1) {
 		glUniform1i(loc, (int)value);
 	}
 }
 
-void Shader::setInt(const std::string& name, int value) const {
+void ShaderPipeline::setInt(const std::string& name, int value) const {
 	GLint loc = glGetUniformLocation(ID, name.c_str());
 	if (loc != -1) {
 		glUniform1i(loc, (int)value);
 	}
 }
 
-void Shader::setFloat(const std::string& name, float value) const {
+void ShaderPipeline::setFloat(const std::string& name, float value) const {
 	GLint loc = glGetUniformLocation(ID, name.c_str());
 	if (loc != -1) {
 		glUniform1f(loc, value);
 	}
 }
 
-void Shader::setVec3(const std::string& name, const glm::vec3& value) const {
+void ShaderPipeline::setVec3(const std::string& name, const glm::vec3& value) const {
 	GLint loc = glGetUniformLocation(ID, name.c_str());
 	if (loc != -1) {
 		glUniform3fv(loc, 1, &value[0]);
 	}
 }
 
-void Shader::setMat4(const std::string& name, const glm::mat4& mat) const {
+void ShaderPipeline::setMat4(const std::string& name, const glm::mat4& mat) const {
 	GLint loc = glGetUniformLocation(ID, name.c_str());
 	if (loc != -1) {
 		glUniformMatrix4fv(loc, 1, GL_FALSE, &mat[0][0]);
 	}
 }
 
-Shader::~Shader() {
+ShaderPipeline::~ShaderPipeline() {
 	if (ID) {
 		glDeleteProgram(ID);
 	}

@@ -3,12 +3,11 @@
 #include <vector>
 #include <memory>
 #include "../Rendering/Mesh.h"
-#include "../Core/Shader.h"
 #include "../Loaders/ModelLoader.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "../Core/Renderer.h"
-#include "../Rendering/Material.h"
+#include "../Rendering/MaterialLibrary.h"
 #include "SceneNode.h"
 
 enum class ModelType {
@@ -24,23 +23,20 @@ private:
 	std::string filePath;
 	std::unique_ptr<SceneNode> rootNode;
 	void updateRootNodeTransform();
-	void generateCube();
-	void generateSphere(int segments = 32);
-	void generatePlane(float width = 1.0f, float height = 1.0f, unsigned int segments = 1);
+	void generateCube(const std::string& materialName);
+	void generateSphere(const std::string& materialName, int segments = 32);
+	void generatePlane(const std::string& materialName, float width = 1.0f, float height = 1.0f, unsigned int segments = 1);
 	static unsigned int nextID;
 	ModelType modelType;
 public:
-	Model(const std::string& objectName, const std::string& filePath, Shader& shader);
-	Model(const std::string& objectName, ModelType type, Shader& shader, float width = 1.0f, float height = 1.0f, int segments = 32);
-	Model(const std::string& objectName, Mesh* customMesh, Shader& shader);
+	Model(const std::string& objectName, const std::string& filePath, ShaderPipeline& pipeline, MaterialLibrary& materials);
+	Model(const std::string& objectName, ModelType type, ShaderPipeline& pipeline, MaterialLibrary& materials, float width = 1.0f, float height = 1.0f, int segments = 32);
 	~Model();
 	Model(const Model&) = delete;
 	Model& operator=(const Model&) = delete;
 
 	const std::string& getName() const { return name; }
 	unsigned int getId() const { return id; }
-	Shader* getShader() const { return shader; }
-	Material* getMaterial(size_t index) const;
 
 	void setPosition(const glm::vec3& position);
 	void setRotation(const glm::vec3& rotation);
@@ -54,13 +50,11 @@ public:
 
 	bool isLoaded() const;
 
-	void render(Renderer& renderer);
+	void render(Renderer& renderer, const MaterialLibrary& materials);
 
 private:
 	std::string name;
-	Shader* shader;
 	unsigned int id;
-	std::vector<std::unique_ptr<Material>> materials;
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;

@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "../Rendering/Mesh.h"
-#include "../Rendering/Material.h"
+#include "../Rendering/MaterialLibrary.h"
 #include "../Core/Renderer.h"
 #include "SceneNode.h"
 
@@ -14,9 +14,8 @@ SceneNode::SceneNode(const std::string& nodeName)
     updateLocalTransform();
 }
 
-void SceneNode::addMesh(std::unique_ptr<Mesh> mesh, int materialIndex) {
+void SceneNode::addMesh(std::unique_ptr<Mesh> mesh) {
     meshes.push_back(std::move(mesh));
-    materialIndices.push_back(materialIndex);
 }
 
 SceneNode::~SceneNode() = default;
@@ -89,23 +88,13 @@ void SceneNode::updateGlobalTransform(const glm::mat4& parentTransform) {
     }
 }
 
-void SceneNode::render(Renderer& renderer, const std::vector<std::unique_ptr<Material>>& materials) {
-    for (size_t i = 0; i < meshes.size(); ++i) {
-        Mesh* mesh = meshes[i].get();
-        if (mesh) {
-			Material* material = nullptr;
-            if (i < materialIndices.size() && materialIndices[i] >= 0 && materialIndices[i] < materials.size()) {
-				material = materials[materialIndices[i]].get();
-            }
-            if (material && mesh->getShader()) {
-                material->bindTextures(*mesh->getShader());
-                material->setUniforms(*mesh->getShader());
-            }
-			renderer.drawTriangles(*mesh);
-            if (material) {
-                material->unbindTextures();
-            }
-        }
+void SceneNode::render(Renderer& renderer, const MaterialLibrary& materials) {
+    for (auto& mesh : meshes) {
+        if (!mesh) continue;
+        Material& material = materials.getOrDefault(mesh->getMaterialName());
+        material.bind();
+        renderer.drawTriangles(*mesh, *material.getPipeline());
+        material.unbind();
     }
     for (auto& child : children) {
 		child->render(renderer, materials);

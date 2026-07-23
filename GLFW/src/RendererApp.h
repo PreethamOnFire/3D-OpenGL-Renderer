@@ -2,7 +2,8 @@
 #pragma once
 #include "Core/Application.h"
 #include "Scene/Scene.h"
-#include "Core/Shader.h"
+#include "Core/ShaderPipelineLibrary.h"
+#include "Rendering/MaterialLibrary.h"
 
 class RendererApp : public Application {
 public:
@@ -16,6 +17,6 @@ protected:
 
 private:
     std::unique_ptr<Scene>  scene;
-    std::unique_ptr<Shader> objectShader;
-    std::unique_ptr<Shader> skyboxShader;
+    ShaderPipelineLibrary pipelines;
+    MaterialLibrary materials;
 };

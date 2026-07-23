@@ -7,7 +7,7 @@
 #include "Camera.h"
 #include "../Rendering/VertexArray.h"
 #include "../Rendering/IndexBuffer.h"
-#include "Shader.h"
+#include "ShaderPipeline.h"
 #include "../Rendering/Mesh.h"
 
 class Renderer {
@@ -20,13 +20,13 @@ public:
 	Camera& getCamera() const { return *camera; }
 
 	void clear(float r = 0.2f, float g = 0.3f, float b = 0.3f, float a = 1.0f);
-	void drawTriangles(Mesh& mesh);
-	void enableDepthTest();
-	void disableDepthTest();
-	void enableBlending() { glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); }
+	void drawTriangles(Mesh& mesh, ShaderPipeline& pipeline);
 	void setTime(float time) { currentTime = time; }
 	void setDeltaTime(float dt) { deltaTime = dt; }
-	void bindGlobalUniforms(Shader& shader);
+	void bindGlobalUniforms(ShaderPipeline& pipeline);
+
+	int drawCallCount = 0;
+	void resetDrawCalls() { drawCallCount = 0; }
 
 private:
 	float currentTime = 0.0f;

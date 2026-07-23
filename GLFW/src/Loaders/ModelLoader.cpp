@@ -11,8 +11,7 @@
 #include <filesystem>
 #include <iostream>
 
-std::pair<std::unique_ptr<SceneNode>, std::vector<std::unique_ptr<Material>>> ModelLoader::loadHierarchicalModel(const std::string& filePath, Shader& shader) {
-	std::vector<std::unique_ptr<Material>> materials;
+std::unique_ptr<SceneNode> ModelLoader::loadHierarchicalModel(const std::string& filePath, ShaderPipeline& pipeline, MaterialLibrary& materials, const std::string& modelName) {
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(filePath,
         aiProcess_Triangulate |           // Convert polygons to triangles
@@ -27,17 +26,16 @@ std::pair<std::unique_ptr<SceneNode>, std::vector<std::unique_ptr<Material>>> Mo
 
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
         std::cerr << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-        return { nullptr, std::move(materials) };
+        return nullptr;
     }
 
     std::string directory = std::filesystem::path(filePath).parent_path().string();
 
-	materials = loadMaterials(scene, directory);
-	auto rootNode = processNode(scene->mRootNode, scene, shader);
-	return { std::move(rootNode), std::move(materials) };
+	loadMaterials(scene, directory, pipeline, materials, modelName);
+	return processNode(scene->mRootNode, scene, modelName);
 }
 
-std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh* mesh, const aiScene* scene, Shader& shader) {
+std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh* mesh, const aiScene* scene, const std::string& modelName) {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 
@@ -65,10 +63,12 @@ std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh* mesh, const aiScene* scen
             indices.push_back(face.mIndices[j]);
         }
     }
-    return std::make_unique<Mesh>(vertices, indices, shader);
+
+    std::string materialName = modelName + "_mat_" + std::to_string(mesh->mMaterialIndex);
+    return std::make_unique<Mesh>(vertices, indices, materialName);
 }
 
-std::unique_ptr<SceneNode> ModelLoader::processNode(aiNode* node, const aiScene* scene, Shader& shader) {
+std::unique_ptr<SceneNode> ModelLoader::processNode(aiNode* node, const aiScene* scene, const std::string& modelName) {
     auto sceneNode = std::make_unique<SceneNode>(node->mName.C_Str());
 
 	aiMatrix4x4 aiTransform = node->mTransformation;
@@ -82,14 +82,14 @@ std::unique_ptr<SceneNode> ModelLoader::processNode(aiNode* node, const aiScene*
 
     for (unsigned int i = 0; i < node->mNumMeshes; i++) {
         aiMesh* childMesh = scene->mMeshes[node->mMeshes[i]];
-        auto mesh = processMesh(childMesh, scene, shader);
+        auto mesh = processMesh(childMesh, scene, modelName);
         if (mesh) {
-            sceneNode->addMesh(std::move(mesh), childMesh->mMaterialIndex);
+            sceneNode->addMesh(std::move(mesh));
         }
     }
 
     for (unsigned int i = 0; i < node->mNumChildren; i++) {
-		auto childNode = processNode(node->mChildren[i], scene, shader);
+		auto childNode = processNode(node->mChildren[i], scene, modelName);
 
         if (childNode) {
             sceneNode->addChild(std::move(childNode));
@@ -98,57 +98,62 @@ std::unique_ptr<SceneNode> ModelLoader::processNode(aiNode* node, const aiScene*
 	return sceneNode;
 }
 
-std::vector<std::unique_ptr<Material>> ModelLoader::loadMaterials(const aiScene* scene, const std::string& directory) {
-    std::vector<std::unique_ptr<Material>> materials;
+void ModelLoader::loadMaterials(const aiScene* scene, const std::string& directory, ShaderPipeline& pipeline, MaterialLibrary& materials, const std::string& modelName) {
     for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
         aiMaterial* aiMat = scene->mMaterials[i];
-        auto material = std::make_unique<Material>();
+        std::string materialName = modelName + "_mat_" + std::to_string(i);
+        Material& material = materials.create(materialName, pipeline);
 
 		aiColor3D color(0.0f, 0.0f, 0.0f);
+		glm::vec3 diffuse(0.8f, 0.8f, 0.8f);
+		glm::vec3 ambient = diffuse * 0.2f;
+		glm::vec3 specular(1.0f, 1.0f, 1.0f);
+		float shininess = 32.0f;
 
         if (AI_SUCCESS == aiMat->Get(AI_MATKEY_COLOR_DIFFUSE, color)) {
-            material->diffuse = glm::vec3(color.r, color.g, color.b);
+            diffuse = glm::vec3(color.r, color.g, color.b);
         }
         if (AI_SUCCESS == aiMat->Get(AI_MATKEY_COLOR_AMBIENT, color)) {
-            material->ambient = glm::vec3(color.r, color.g, color.b);
+            ambient = glm::vec3(color.r, color.g, color.b);
         }
         else {
-			material->ambient = material->diffuse * 0.2f; 
+			ambient = diffuse * 0.2f;
         }
         if (AI_SUCCESS == aiMat->Get(AI_MATKEY_COLOR_SPECULAR, color)) {
-            material->specular = glm::vec3(color.r, color.g, color.b);
+            specular = glm::vec3(color.r, color.g, color.b);
 		}
-        float shininess = 0.0f;
-        if (AI_SUCCESS == aiMat->Get(AI_MATKEY_SHININESS, shininess)) {
-            material->shininess = shininess;
+        float aiShininess = 0.0f;
+        if (AI_SUCCESS == aiMat->Get(AI_MATKEY_SHININESS, aiShininess)) {
+            shininess = aiShininess;
         }
+
+        material.setVec3("diffuse", diffuse);
+        material.setVec3("ambient", ambient);
+        material.setVec3("specular", specular);
+        material.setFloat("shininess", shininess);
 
         std::vector<Texture> diffuseMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_DIFFUSE, "diffuse", directory);
         for (auto& texture : diffuseMaps) {
-            material->addTexture(texture);
+            material.setTexture("diffuse", texture);
         }
 
 		std::vector<Texture> specularMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_SPECULAR, "specular", directory);
         for (auto& texture : specularMaps) {
-            material->addTexture(texture);
+            material.setTexture("specular", texture);
         }
 
 		std::vector<Texture> normalMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_HEIGHT, "normal", directory);
         for (auto& texture : normalMaps) {
-            material->addTexture(texture);
+            material.setTexture("normal", texture);
         }
-
-		materials.push_back(std::move(material));
     }
 
-    if (materials.empty()) {
-        auto defaultMaterial = std::make_unique<Material>();
-        defaultMaterial->diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
-        materials.push_back(std::move(defaultMaterial));
+    if (scene->mNumMaterials == 0) {
+        std::string materialName = modelName + "_mat_0";
+        Material& material = materials.create(materialName, pipeline);
+        material.setVec3("diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
         std::cout << "Created default material" << std::endl;
     }
-
-    return materials;
 }
 
 glm::vec3 ModelLoader::quatToEuler(const aiQuaternion& q) {

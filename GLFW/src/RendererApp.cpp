@@ -2,7 +2,7 @@
 #include <memory>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "Core/Shader.h"
+#include "Core/ShaderPipeline.h"
 #include "Core/Renderer.h"
 #include "Core/Window.h"
 #include "Core/Clock.h"
@@ -16,28 +16,29 @@
 
 void RendererApp::onInit() {
     scene = std::make_unique<Scene>();
-    skyboxShader = std::make_unique<Shader>("src/Shaders/SkyBoxVertexShader.vs", "src/Shaders/SkyBoxFragmentShader.fs");
-    objectShader = std::make_unique<Shader>("src/Shaders/DefaultVertexShader.vs", "src/Shaders/TextureShader.fs");
+    ShaderPipeline& skyboxPipeline = pipelines.load("skybox", "src/Shaders/SkyBoxVertexShader.vs", "src/Shaders/SkyBoxFragmentShader.fs");
+    ShaderPipeline& objectPipeline = pipelines.load("default", "src/Shaders/DefaultVertexShader.vs", "src/Shaders/TextureShader.fs");
+    materials.create("default", objectPipeline);
 
     std::vector<std::string> faces{
         "right.jpg", "left.jpg", "top.jpg",
         "bottom.jpg", "front.jpg", "back.jpg"
     };
-    scene->setSkybox(faces, "assets/skybox", *skyboxShader);
+    scene->setSkybox(faces, "assets/skybox", skyboxPipeline);
 
-    Model* monkey = scene->addModel("Monkey", "assets/models/Monkey.obj", *objectShader);
+    Model* monkey = scene->addModel("Monkey", "assets/models/Monkey.obj", objectPipeline, materials);
     monkey->setPosition(glm::vec3(0.0f, 0.0f, 5.0f));
     monkey->setScale(glm::vec3(0.8f, 0.8f, 0.8f));
 
-    Model* normandy = scene->addModel("Normandy", "assets/models/Normandy/Normandy.obj", *objectShader);
+    Model* normandy = scene->addModel("Normandy", "assets/models/Normandy/Normandy.obj", objectPipeline, materials);
     normandy->setPosition(glm::vec3(0.0f, 13.0f, -6.0f));
     normandy->setScale(glm::vec3(0.001f, 0.001f, 0.001f));
 
-    Model* tower = scene->addModel("Tower", "assets/models/Tower/scene.gltf", *objectShader);
+    Model* tower = scene->addModel("Tower", "assets/models/Tower/scene.gltf", objectPipeline, materials);
     tower->setPosition(glm::vec3(-6.0f, 4.0f, 6.0f));
     tower->setScale(glm::vec3(0.001f, 0.001f, 0.001f));
 
-    Model* island = scene->addModel("Island", "assets/models/Island/Island.obj", *objectShader);
+    Model* island = scene->addModel("Island", "assets/models/Island/Island.obj", objectPipeline, materials);
     island->setScale(glm::vec3(10.0f, 10.0f, 10.0f));
 
     scene->addDirectionalLight(
@@ -56,7 +57,7 @@ void RendererApp::onUpdate() {
 
 
 void RendererApp::onRender() {
-    scene->render(*renderer);
+    scene->render(*renderer, materials, *pipelines.get("default"));
 }
 
 void RendererApp::onImGui() {

@@ -2,7 +2,6 @@
 #include <vector>
 #include <iostream>
 #include "../Rendering/Mesh.h"
-#include "../Core/Shader.h"
 #include "../Loaders/ModelLoader.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -11,24 +10,12 @@
 
 unsigned int Model::nextID = 0;
 
-Model::Model(const std::string& name, const std::string& filePath, Shader& shader)
-	: filePath(filePath), position(0.0f), rotation(0.0f), scale(1.0f), shader(&shader), name(name), id(nextID++), modelType(ModelType::LOADED_MODEL) {
-	auto result = ModelLoader::loadHierarchicalModel(filePath, shader);
-	rootNode = std::move(result.first);
-	materials = std::move(result.second);
+Model::Model(const std::string& name, const std::string& filePath, ShaderPipeline& pipeline, MaterialLibrary& materials)
+	: filePath(filePath), position(0.0f), rotation(0.0f), scale(1.0f), name(name), id(nextID++), modelType(ModelType::LOADED_MODEL) {
+	rootNode = ModelLoader::loadHierarchicalModel(filePath, pipeline, materials, name);
 	if (!rootNode) {
 		std::cerr << "Failed to load model from " << filePath << std::endl;
 		return;
-	}
-
-	for (size_t i = 0; i < materials.size(); ++i) {
-		if (!materials[i]) {
-			std::cerr << "ERROR: Material " << i << " is null!" << std::endl;
-			materials[i] = std::make_unique<Material>();
-		}
-		else {
-			std::cout << "Material " << i << " has " << materials[i]->getTextures().size() << " textures" << std::endl;
-		}
 	}
 
 	if (!rootNode->hasMeshes()) {
@@ -38,37 +25,32 @@ Model::Model(const std::string& name, const std::string& filePath, Shader& shade
 	}
 }
 
-Model::Model(const std::string& objectName, ModelType type, Shader& shader, float width, float height, int segments)
-	: id(nextID++), name(objectName), filePath(""), position(0.0f), rotation(0.0f), scale(1.0f), shader(&shader), modelType(type) {
+Model::Model(const std::string& objectName, ModelType type, ShaderPipeline& pipeline, MaterialLibrary& materials, float width, float height, int segments)
+	: id(nextID++), name(objectName), filePath(""), position(0.0f), rotation(0.0f), scale(1.0f), modelType(type) {
 
 	rootNode = std::make_unique<SceneNode>(objectName);
 
+	std::string materialName = objectName + "_default";
+	Material& defaultMaterial = materials.create(materialName, pipeline);
+	defaultMaterial.setVec3("diffuse", glm::vec3(0.8f, 0.8f, 0.8f));
+
 	switch (type) {
 	case ModelType::PRIMITIVE_CUBE:
-		generateCube();
+		generateCube(materialName);
 		break;
 	case ModelType::PRIMITIVE_SPHERE:
-		generateSphere(segments);
+		generateSphere(materialName, segments);
 		break;
 	case ModelType::PRIMITIVE_PLANE:
-		generatePlane(width, height, static_cast<unsigned int>(segments));
+		generatePlane(materialName, width, height, static_cast<unsigned int>(segments));
 		break;
 	default:
 		std::cerr << "Unknown primitive type!" << std::endl;
 		break;
 	}
-
-	auto defaultMaterial = std::make_unique<Material>();
-	defaultMaterial->diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
-	materials.push_back(std::move(defaultMaterial));
 }
 
 Model::~Model() = default;
-
-Material* Model::getMaterial(size_t index) const {
-	if (index < materials.size()) return materials[index].get();
-	return nullptr;
-}
 
 void Model::setPosition(const glm::vec3& position) {
 	this->position = position;
@@ -117,13 +99,12 @@ bool Model::isLoaded() const {
 	return rootNode != nullptr;
 }
 
-void Model::render(Renderer& renderer) {
-	if (!rootNode || !shader) return;
-	shader->use();
+void Model::render(Renderer& renderer, const MaterialLibrary& materials) {
+	if (!rootNode) return;
 	rootNode->render(renderer, materials);
 }
 
-void Model::generateCube() {
+void Model::generateCube(const std::string& materialName) {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 
@@ -166,10 +147,10 @@ void Model::generateCube() {
 		20, 21, 22, 22, 23, 20
 	};
 
-	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, *shader), 0);
+	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, materialName));
 }
 
-void Model::generateSphere(int segments) {
+void Model::generateSphere(const std::string& materialName, int segments) {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 
@@ -215,10 +196,10 @@ void Model::generateSphere(int segments) {
 		}
 	}
 
-	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, *shader), 0);
+	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, materialName));
 }
 
-void Model::generatePlane(float width, float height, unsigned int segments) {
+void Model::generatePlane(const std::string& materialName, float width, float height, unsigned int segments) {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	float halfWidth = width / 2.0f;
@@ -250,5 +231,5 @@ void Model::generatePlane(float width, float height, unsigned int segments) {
 			indices.push_back(bottomRight);
 		}
 	}
-	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, *shader), 0);
+	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, materialName));
 }
