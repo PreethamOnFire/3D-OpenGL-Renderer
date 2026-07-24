@@ -102,9 +102,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;IMGUI_IMPL_OPENGL_LOADER_CUSTOM;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glm-1.0.1;D:\RandomProjects\Graphics\GLFW\Dependencies\imgui;D:\RandomProjects\Graphics\GLFW\Dependencies\imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -123,9 +123,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;IMGUI_IMPL_OPENGL_LOADER_CUSTOM;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glm-1.0.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\RandomProjects\Graphics\GLFW\Dependencies\Assimp\include;D:\RandomProjects\Graphics\GLFW\Dependencies\GLFW\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glew-2.1.0\include;D:\RandomProjects\Graphics\GLFW\Dependencies\glm-1.0.1;D:\RandomProjects\Graphics\GLFW\Dependencies\imgui;D:\RandomProjects\Graphics\GLFW\Dependencies\imgui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -161,6 +161,13 @@
     <ClCompile Include="src\Scene\SkyBox.cpp" />
     <ClCompile Include="src\Loaders\ModelLoader.cpp" />
     <ClCompile Include="src\Loaders\TextureLoader.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\backends\imgui_impl_opengl3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h" />
@@ -187,6 +194,15 @@
     <ClInclude Include="stb\stb_image.h" />
     <ClInclude Include="src\Loaders\ModelLoader.h" />
     <ClInclude Include="src\Loaders\TextureLoader.h" />
+    <ClInclude Include="..\Dependencies\imgui\imgui.h" />
+    <ClInclude Include="..\Dependencies\imgui\imconfig.h" />
+    <ClInclude Include="..\Dependencies\imgui\imgui_internal.h" />
+    <ClInclude Include="..\Dependencies\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\Dependencies\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\Dependencies\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\Dependencies\imgui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="..\Dependencies\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\Dependencies\imgui\backends\imgui_impl_opengl3_loader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\BlinkingShader.fs" />
