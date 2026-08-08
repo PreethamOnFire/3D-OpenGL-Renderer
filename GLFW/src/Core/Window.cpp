@@ -40,7 +40,7 @@ Window::Window(int width, int height, const std::string& title)
     }
 
     glfwMakeContextCurrent(handle);
-    glfwSwapInterval(1); // vsync on — turn off to benchmark uncapped FPS
+    setVSync(true);
 
     // GLEW needs the context current before init
     glewExperimental = GL_TRUE;
@@ -98,4 +98,9 @@ void Window::onResize(int newWidth, int newHeight) {
 
 void Window::setResizeCallback(std::function<void(int, int)> cb) {
     resizeCallback = cb;
+}
+
+void Window::setVSync(bool enabled) {
+    glfwSwapInterval(enabled ? 1 : 0);
+    vsync = enabled;
 }

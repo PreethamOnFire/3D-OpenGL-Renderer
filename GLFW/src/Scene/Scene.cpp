@@ -178,4 +178,20 @@ void Scene::render(Renderer& renderer, const MaterialLibrary& materials, ShaderP
 	}
 }
 
+SceneStats Scene::getStats() const {
+	SceneStats stats;
+	for (const auto& model : models) {
+		if (model && model->isLoaded()) {
+			stats.modelCount++;
+			if (SceneNode* root = model->getRootNode()) {
+				SceneStats nodeStats = root->getStats();
+				stats.meshCount += nodeStats.meshCount;
+				stats.vertexCount += nodeStats.vertexCount;
+				stats.indexCount += nodeStats.indexCount;
+			}
+		}
+	}
+	return stats;
+}
+
 

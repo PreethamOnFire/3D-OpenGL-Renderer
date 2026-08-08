@@ -11,6 +11,12 @@
 #include "Core/Application.h"
 #include "Loaders/TextureLoader.h"
 #include "RendererApp.h"
+#include "UI/Panels/PerformancePanel.h"
+#include "UI/Panels/CameraPanel.h"
+#include "UI/Panels/RendererSettingsPanel.h"
+#include "UI/Panels/ScenePanel.h"
+#include "UI/Panels/ModelInspectorPanel.h"
+#include "UI/Panels/LightingPanel.h"
 #include <vector>
 
 
@@ -46,6 +52,13 @@ void RendererApp::onInit() {
         glm::vec3(1.0f, 0.95f, 0.8f),
         1.0f
     );
+
+    UI->registerPanel(std::make_unique<PerformancePanel>(*renderer, *scene, clock));
+    UI->registerPanel(std::make_unique<CameraPanel>(*renderer));
+    UI->registerPanel(std::make_unique<RendererSettingsPanel>(*renderer, *window));
+    UI->registerPanel(std::make_unique<ScenePanel>(*scene, UI->ctx));
+    UI->registerPanel(std::make_unique<ModelInspectorPanel>(UI->ctx));
+    UI->registerPanel(std::make_unique<LightingPanel>(*scene, UI->ctx));
 }
 
 void RendererApp::onUpdate() {
@@ -61,7 +74,7 @@ void RendererApp::onRender() {
 }
 
 void RendererApp::onImGui() {
-    // Phase 2: ImGui::Begin("Scene"), list models, sliders, etc.
+    UI->draw(*renderer, *scene, materials, clock);
 }
 
 

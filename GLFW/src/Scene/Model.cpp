@@ -100,7 +100,7 @@ bool Model::isLoaded() const {
 }
 
 void Model::render(Renderer& renderer, const MaterialLibrary& materials) {
-	if (!rootNode) return;
+	if (!rootNode || !visible) return;
 	rootNode->render(renderer, materials);
 }
 

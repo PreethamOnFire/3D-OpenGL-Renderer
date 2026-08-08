@@ -101,3 +101,21 @@ void SceneNode::render(Renderer& renderer, const MaterialLibrary& materials) {
     }
 }
 
+SceneStats SceneNode::getStats() const {
+    SceneStats stats;
+    stats.meshCount = meshes.size();
+    for (const auto& mesh : meshes) {
+        if (!mesh) continue;
+        stats.vertexCount += mesh->getVertexCount();
+        stats.indexCount += mesh->getIndexCount();
+    }
+    for (const auto& child : children) {
+        if (!child) continue;
+        SceneStats childStats = child->getStats();
+        stats.meshCount += childStats.meshCount;
+        stats.vertexCount += childStats.vertexCount;
+        stats.indexCount += childStats.indexCount;
+    }
+    return stats;
+}
+

@@ -36,7 +36,15 @@ public:
 	Model& operator=(const Model&) = delete;
 
 	const std::string& getName() const { return name; }
+	void setName(const std::string& newName) { name = newName; }
 	unsigned int getId() const { return id; }
+	ModelType getModelType() const { return modelType; }
+	const glm::vec3& getPosition() const { return position; }
+	const glm::vec3& getRotation() const { return rotation; }
+	const glm::vec3& getScale() const { return scale; }
+
+	bool isVisible() const { return visible; }
+	void setVisible(bool newVisible) { visible = newVisible; }
 
 	void setPosition(const glm::vec3& position);
 	void setRotation(const glm::vec3& rotation);
@@ -58,4 +66,5 @@ private:
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
+	bool visible = true;
 };

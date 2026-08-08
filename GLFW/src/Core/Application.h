@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "Clock.h"
 #include <memory>
+#include "../UI/UIManager.h"
 
 class Application {
 public:
@@ -28,5 +29,6 @@ protected:
     std::unique_ptr<Window>       window;
     std::unique_ptr<Renderer>     renderer;
     std::unique_ptr<InputManager> input;
+    std::unique_ptr<UIManager> UI;
     Clock clock;
 };

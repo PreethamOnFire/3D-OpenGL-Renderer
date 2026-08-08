@@ -7,6 +7,7 @@
 #include "../Rendering/Mesh.h"
 #include "../Rendering/MaterialLibrary.h"
 #include "../Core/Renderer.h"
+#include "SceneStats.h"
 
 class SceneNode {
 public:
@@ -20,6 +21,7 @@ public:
 
 	void addChild(std::unique_ptr<SceneNode> child);
 	SceneNode* findChild(const std::string& name);
+	const std::vector<std::unique_ptr<SceneNode>>& getChildren() const { return children; }
 
 	void setPosition(const glm::vec3& pos);
 	void setRotation(const glm::vec3& rot);
@@ -31,6 +33,8 @@ public:
 	void updateGlobalTransform(const glm::mat4& parentTransform = glm::mat4(1.0f));
 
 	void render(Renderer& renderer, const MaterialLibrary& materials);
+
+	SceneStats getStats() const;
 
 private:
 	std::string name;

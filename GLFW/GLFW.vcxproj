@@ -168,6 +168,13 @@
     <ClCompile Include="..\Dependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\Dependencies\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\Dependencies\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\UI\UIManager.cpp" />
+    <ClCompile Include="src\UI\Panels\PerformancePanel.cpp" />
+    <ClCompile Include="src\UI\Panels\CameraPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\RendererSettingsPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\ScenePanel.cpp" />
+    <ClCompile Include="src\UI\Panels\ModelInspectorPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\LightingPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h" />
@@ -191,6 +198,7 @@
     <ClInclude Include="src\Scene\Scene.h" />
     <ClInclude Include="src\Scene\SceneNode.h" />
     <ClInclude Include="src\Scene\SkyBox.h" />
+    <ClInclude Include="src\UI\Panels\ModelInspectorPanel.h" />
     <ClInclude Include="stb\stb_image.h" />
     <ClInclude Include="src\Loaders\ModelLoader.h" />
     <ClInclude Include="src\Loaders\TextureLoader.h" />
@@ -203,6 +211,15 @@
     <ClInclude Include="..\Dependencies\imgui\backends\imgui_impl_glfw.h" />
     <ClInclude Include="..\Dependencies\imgui\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="..\Dependencies\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\UI\UIManager.h" />
+    <ClInclude Include="src\UI\UIContext.h" />
+    <ClInclude Include="src\UI\Panels\UIPanel.h" />
+    <ClInclude Include="src\UI\Panels\PerformancePanel.h" />
+    <ClInclude Include="src\UI\Panels\CameraPanel.h" />
+    <ClInclude Include="src\UI\Panels\RendererSettingsPanel.h" />
+    <ClInclude Include="src\UI\Panels\ScenePanel.h" />
+    <ClInclude Include="src\Scene\SceneStats.h" />
+    <ClInclude Include="src\UI\Panels\LightingPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\BlinkingShader.fs" />

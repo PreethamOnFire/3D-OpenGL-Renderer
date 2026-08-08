@@ -18,7 +18,9 @@ Camera::Camera(GLFWwindow& window) {
 	viewMatrix = glm::lookAt(eye, at, up);
 	int width, height;
 	glfwGetWindowSize(&window, &width, &height);
-	projectionMatrix = glm::perspective(glm::radians(fov), static_cast<float>(width) / static_cast<float>(height), 0.1f, 1000.0f);
+	lastWidth = static_cast<float>(width);
+	lastHeight = static_cast<float>(height);
+	projectionMatrix = glm::perspective(glm::radians(fov), lastWidth / lastHeight, 0.1f, 1000.0f);
 }
 
 void Camera::setViewMatrix() {
@@ -26,8 +28,20 @@ void Camera::setViewMatrix() {
 }
 
 void Camera::updateProjectionMatrix(float width, float height) {
-	float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
+	lastWidth = width;
+	lastHeight = height;
+	float aspectRatio = width / height;
 	projectionMatrix = glm::perspective(glm::radians(fov), aspectRatio, 0.1f, 1000.0f);
+}
+
+void Camera::setFov(float degrees) {
+	fov = degrees;
+	updateProjectionMatrix(lastWidth, lastHeight);
+}
+
+void Camera::setEye(const glm::vec3& newEye) {
+	eye = newEye;
+	updateCameraVectors(); // rebuilds 'at' from the new eye + current yaw/pitch, then refreshes the view matrix
 }
 
 void Camera::update(const InputManager& input, float deltaTime) {
@@ -71,9 +85,9 @@ void Camera::update(const InputManager& input, float deltaTime) {
 
 	// Hold shift to move faster
 	if (input.isKeyHeld(GLFW_KEY_LEFT_SHIFT))
-		speed = 10.0f;
+		speed = baseSpeed * 2.0f;
 	else
-		speed = 5.0f;
+		speed = baseSpeed;
 
 	// Mouse look — only when cursor is captured
 	if (input.isCursorCaptured()) {

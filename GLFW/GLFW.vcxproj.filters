@@ -16,6 +16,12 @@
     <Filter Include="Dependencies\imgui">
       <UniqueIdentifier>{9b6f6f3a-3b8b-4f0a-9f1e-3a2f9b8a1c11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{2c8e6a4b-7d3f-4a1e-9c5d-6b7e8f9a0d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Panels">
+      <UniqueIdentifier>{5f1a2b3c-4d5e-4f6a-8b9c-0d1e2f3a4b5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Rendering\VertexArray.cpp">
@@ -101,6 +107,27 @@
     </ClCompile>
     <ClCompile Include="..\Dependencies\imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>Dependencies\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\UIManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\PerformancePanel.cpp">
+      <Filter>UI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\CameraPanel.cpp">
+      <Filter>UI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\RendererSettingsPanel.cpp">
+      <Filter>UI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\ScenePanel.cpp">
+      <Filter>UI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\ModelInspectorPanel.cpp">
+      <Filter>UI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Panels\LightingPanel.cpp">
+      <Filter>UI\Panels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +229,36 @@
     </ClInclude>
     <ClInclude Include="..\Dependencies\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>Dependencies\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIManager.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIContext.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Panels\UIPanel.h">
+      <Filter>UI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Panels\PerformancePanel.h">
+      <Filter>UI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Panels\CameraPanel.h">
+      <Filter>UI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Panels\RendererSettingsPanel.h">
+      <Filter>UI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Panels\ScenePanel.h">
+      <Filter>UI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Panels\ModelInspectorPanel.h">
+      <Filter>UI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Panels\LightingPanel.h">
+      <Filter>UI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\SceneStats.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

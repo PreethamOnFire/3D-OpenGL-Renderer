@@ -22,8 +22,11 @@ public:
 
     void onResize(int newWidth, int newHeight);
 
-   
+
     void setResizeCallback(std::function<void(int, int)> cb);
+
+    void setVSync(bool enabled);
+    bool isVSyncEnabled() const { return vsync; }
 
 private:
     GLFWwindow* handle = nullptr;

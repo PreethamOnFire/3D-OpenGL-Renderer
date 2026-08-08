@@ -8,10 +8,12 @@ Application::Application(int width, int height, const std::string& title) {
         renderer->getCamera().updateProjectionMatrix(
             static_cast<float>(w), static_cast<float>(h));
         });
+    UI = std::make_unique<UIManager>();
 }
 
 void Application::run() {
 	input->captureCursor(window->getHandle());
+	UI->init(*window, "#version 460");
 	onInit();
 
     while (!window->shouldClose()) {
@@ -20,16 +22,26 @@ void Application::run() {
         float dt = clock.getDeltaTime();
 
         input->update(window->getHandle());
+
+        if (input->isCursorCaptured()) {
+            if (input->isKeyJustPressed(GLFW_KEY_ESCAPE)) {
+                input->releaseCursor(window->getHandle());
+            }
+        } else if (input->isMouseButtonJustPressed(GLFW_MOUSE_BUTTON_LEFT) && !UI->wantsMouseCapture()) {
+            input->captureCursor(window->getHandle());
+        }
+
 		renderer->getCamera().update(*input, dt);
 
         onUpdate();
 
         renderer->clear();
         onRender();
-        onImGui();     // no-op until ImGui is added
+        onImGui();
 
         window->swapBuffers();
     }
 
     onShutdown();
+    UI->shutdown();
 }

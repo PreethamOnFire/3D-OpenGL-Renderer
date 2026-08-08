@@ -9,6 +9,7 @@
 #include "../Core/ShaderPipeline.h"
 #include "../Rendering/MaterialLibrary.h"
 #include "Model.h"
+#include "SceneStats.h"
 
 class Scene {
 private:
@@ -37,6 +38,7 @@ public:
 
 	Model* getModel(unsigned int id);
 	Model* getModel(const std::string& name);
+	const std::vector<std::unique_ptr<Model>>& getModels() const { return models; }
 
 	Light* addDirectionalLight(const glm::vec3& dir, const glm::vec3& col, float intensity = 1.0f);
 	Light* addPointLight(const glm::vec3& pos, const glm::vec3& col, float intensity = 1.0f);
@@ -44,7 +46,14 @@ public:
 	bool removeLight(size_t index);
 	void clearLights();
 
+	std::vector<Light>& getLights() { return lights; }
+	const std::vector<Light>& getLights() const { return lights; }
+
+	glm::vec3 getAmbientLight() const { return ambientLight; }
+	void setAmbientLight(const glm::vec3& color) { ambientLight = color; }
+
 	void render(Renderer& renderer, const MaterialLibrary& materials, ShaderPipeline& lightingPipeline);
 
+	SceneStats getStats() const;
 
 };
