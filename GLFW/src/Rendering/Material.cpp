@@ -16,6 +16,26 @@ void Material::setMat4(const std::string& name, const glm::mat4& value) {
 	mat4Props[name] = value;
 }
 
+glm::vec3 Material::getVec3OrDefault(const std::string& name, const glm::vec3& def) const {
+	auto it = vec3Props.find(name);
+	return it != vec3Props.end() ? it->second : def;
+}
+
+float Material::getFloatOrDefault(const std::string& name, float def) const {
+	auto it = floatProps.find(name);
+	return it != floatProps.end() ? it->second : def;
+}
+
+glm::vec3 Material::getAmbient() const { return getVec3OrDefault("ambient", glm::vec3(0.0f)); }
+glm::vec3 Material::getDiffuse() const { return getVec3OrDefault("diffuse", glm::vec3(0.8f)); }
+glm::vec3 Material::getSpecular() const { return getVec3OrDefault("specular", glm::vec3(1.0f)); }
+float Material::getShininess() const { return getFloatOrDefault("shininess", 32.0f); }
+
+void Material::setAmbient(const glm::vec3& value) { setVec3("ambient", value); }
+void Material::setDiffuse(const glm::vec3& value) { setVec3("diffuse", value); }
+void Material::setSpecular(const glm::vec3& value) { setVec3("specular", value); }
+void Material::setShininess(float value) { setFloat("shininess", value); }
+
 void Material::setTexture(const std::string& type, const Texture& texture, int slot) {
 	if (texture.id == 0) return;
 

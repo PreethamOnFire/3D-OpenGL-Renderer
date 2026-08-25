@@ -27,6 +27,15 @@ public:
 	void setMat4(const std::string& name, const glm::mat4& value);
 	void setTexture(const std::string& type, const Texture& texture, int slot = -1);
 
+	glm::vec3 getAmbient() const;
+	glm::vec3 getDiffuse() const;
+	glm::vec3 getSpecular() const;
+	float getShininess() const;
+	void setAmbient(const glm::vec3& value);
+	void setDiffuse(const glm::vec3& value);
+	void setSpecular(const glm::vec3& value);
+	void setShininess(float value);
+
 	void bind() const;
 	void unbind() const;
 
@@ -37,6 +46,9 @@ private:
 		Texture tex;
 		int slot;
 	};
+
+	glm::vec3 getVec3OrDefault(const std::string& name, const glm::vec3& def) const;
+	float getFloatOrDefault(const std::string& name, float def) const;
 
 	ShaderPipeline* pipeline;
 

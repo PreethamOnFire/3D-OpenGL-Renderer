@@ -55,6 +55,7 @@ public:
 
 	SceneNode* getRootNode() const;
 	SceneNode* findNode(const std::string& name);
+	std::vector<std::string> getMaterialNames() const;
 
 	bool isLoaded() const;
 

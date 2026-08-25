@@ -17,6 +17,7 @@
 #include "UI/Panels/ScenePanel.h"
 #include "UI/Panels/ModelInspectorPanel.h"
 #include "UI/Panels/LightingPanel.h"
+#include "UI/Panels/MaterialPanel.h"
 #include <vector>
 
 
@@ -59,6 +60,7 @@ void RendererApp::onInit() {
     UI->registerPanel(std::make_unique<ScenePanel>(*scene, UI->ctx));
     UI->registerPanel(std::make_unique<ModelInspectorPanel>(UI->ctx));
     UI->registerPanel(std::make_unique<LightingPanel>(*scene, UI->ctx));
+    UI->registerPanel(std::make_unique<MaterialPanel>(materials, UI->ctx));
 }
 
 void RendererApp::onUpdate() {

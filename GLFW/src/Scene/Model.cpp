@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <set>
 #include <iostream>
 #include "../Rendering/Mesh.h"
 #include "../Loaders/ModelLoader.h"
@@ -97,6 +98,12 @@ SceneNode* Model::findNode(const std::string& name) {
 
 bool Model::isLoaded() const {
 	return rootNode != nullptr;
+}
+
+std::vector<std::string> Model::getMaterialNames() const {
+	std::set<std::string> names;
+	if (rootNode) rootNode->collectMaterialNames(names);
+	return std::vector<std::string>(names.begin(), names.end());
 }
 
 void Model::render(Renderer& renderer, const MaterialLibrary& materials) {

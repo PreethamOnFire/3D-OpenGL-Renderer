@@ -119,3 +119,14 @@ SceneStats SceneNode::getStats() const {
     return stats;
 }
 
+void SceneNode::collectMaterialNames(std::set<std::string>& out) const {
+    for (const auto& mesh : meshes) {
+        if (!mesh) continue;
+        out.insert(mesh->getMaterialName());
+    }
+    for (const auto& child : children) {
+        if (!child) continue;
+        child->collectMaterialNames(out);
+    }
+}
+

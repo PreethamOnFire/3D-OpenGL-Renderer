@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <set>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "../Rendering/Mesh.h"
@@ -35,6 +36,7 @@ public:
 	void render(Renderer& renderer, const MaterialLibrary& materials);
 
 	SceneStats getStats() const;
+	void collectMaterialNames(std::set<std::string>& out) const;
 
 private:
 	std::string name;

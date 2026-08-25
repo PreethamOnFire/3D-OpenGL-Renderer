@@ -129,6 +129,9 @@
     <ClCompile Include="src\UI\Panels\LightingPanel.cpp">
       <Filter>UI\Panels</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\Panels\MaterialPanel.cpp">
+      <Filter>UI\Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rendering\VertexArray.h">
@@ -255,6 +258,9 @@
       <Filter>UI\Panels</Filter>
     </ClInclude>
     <ClInclude Include="src\UI\Panels\LightingPanel.h">
+      <Filter>UI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Panels\MaterialPanel.h">
       <Filter>UI\Panels</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene\SceneStats.h">

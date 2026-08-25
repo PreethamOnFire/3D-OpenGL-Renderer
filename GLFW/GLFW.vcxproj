@@ -175,6 +175,7 @@
     <ClCompile Include="src\UI\Panels\ScenePanel.cpp" />
     <ClCompile Include="src\UI\Panels\ModelInspectorPanel.cpp" />
     <ClCompile Include="src\UI\Panels\LightingPanel.cpp" />
+    <ClCompile Include="src\UI\Panels\MaterialPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="src\UI\Panels\ScenePanel.h" />
     <ClInclude Include="src\Scene\SceneStats.h" />
     <ClInclude Include="src\UI\Panels\LightingPanel.h" />
+    <ClInclude Include="src\UI\Panels\MaterialPanel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\BlinkingShader.fs" />
