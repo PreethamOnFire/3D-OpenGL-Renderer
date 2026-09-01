@@ -7,6 +7,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "../Rendering/Mesh.h"
 #include "../Rendering/MaterialLibrary.h"
+#include "../Rendering/AABB.h"
+#include "../Rendering/RenderQueue.h"
+#include "../Rendering/Frustum.h"
 #include "../Core/Renderer.h"
 #include "SceneStats.h"
 
@@ -33,10 +36,11 @@ public:
 	void updateLocalTransform();
 	void updateGlobalTransform(const glm::mat4& parentTransform = glm::mat4(1.0f));
 
-	void render(Renderer& renderer, const MaterialLibrary& materials);
+	void collectRenderCommands(RenderQueue& queue, const MaterialLibrary& materials, const glm::vec3& camEye, const Frustum& frustum) const;
 
 	SceneStats getStats() const;
 	void collectMaterialNames(std::set<std::string>& out) const;
+	AABB getWorldBounds() const;
 
 private:
 	std::string name;

@@ -171,11 +171,18 @@ void Scene::render(Renderer& renderer, const MaterialLibrary& materials, ShaderP
 	}
 	updateLightUniforms(lightingPipeline, cam.getEye());
 	renderer.bindGlobalUniforms(lightingPipeline);
+
+	Frustum frustum = Frustum::fromViewProjection(cam.getProjectionMatrix() * cam.getViewMatrix());
+
+	renderQueue.clear();
 	for (const auto& model : models) {
 		if (model && model->isLoaded()) {
-			model->render(renderer, materials);
+			model->collectRenderCommands(renderQueue, materials, cam.getEye(), frustum);
 		}
 	}
+	renderQueue.sortOpaque();
+	renderQueue.sortTransparent();
+	renderQueue.execute(renderer);
 }
 
 SceneStats Scene::getStats() const {

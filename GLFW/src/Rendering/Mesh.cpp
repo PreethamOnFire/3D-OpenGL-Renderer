@@ -14,6 +14,14 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>&
 	VBO = std::make_unique<VertexBuffer>(vertexData.data(), vertexData.size() * sizeof(float), false);
 	VAO->addVertexBuffer(*VBO, layout);
 	EBO = std::make_unique<IndexBuffer>(indices.data(), indices.size() * sizeof(unsigned int), false, indices.size());
+	recomputeLocalBounds();
+}
+
+void Mesh::recomputeLocalBounds() {
+	localBounds = AABB();
+	for (const auto& vertex : vertices) {
+		localBounds.expand(vertex.position);
+	}
 }
 
 size_t Mesh::getVertexCount() const {
@@ -37,6 +45,7 @@ void Mesh::updateVertices(const std::vector<Vertex>& newVertices) {
 	auto vertexData = Vertex::toFloatArray(newVertices);
 	VBO->bind();
 	glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(float), vertexData.data(), GL_DYNAMIC_DRAW);
+	recomputeLocalBounds();
 }
 
 void Mesh::updateIndices(const std::vector<unsigned int>& newIndices) {

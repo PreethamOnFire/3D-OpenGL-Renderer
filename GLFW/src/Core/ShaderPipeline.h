@@ -10,6 +10,8 @@ public:
 	ShaderPipeline(const ShaderPipeline&) = delete;
 	ShaderPipeline& operator=(const ShaderPipeline&) = delete;
 
+	unsigned int getID() const { return ID; }
+
 	void use() const;
 	void bind();
 	void applyState() const;
@@ -20,6 +22,25 @@ public:
 	void setFloat(const std::string& name, float value) const;
 	void setVec3(const std::string& name, const glm::vec3& value) const;
 	void setMat4(const std::string& name, const glm::mat4& mat) const;
+
+	bool operator==(const ShaderPipeline& other) const {
+		return ID == other.ID;
+	}
+	bool operator!=(const ShaderPipeline& other) const {
+		return !(*this == other);
+	}
+	bool operator<(const ShaderPipeline& other) const {
+		return ID < other.ID;
+	}
+	bool operator>(const ShaderPipeline& other) const {
+		return ID > other.ID;
+	}
+	bool operator<=(const ShaderPipeline& other) const {
+		return ID <= other.ID;
+	}
+	bool operator>=(const ShaderPipeline& other) const {
+		return ID >= other.ID;
+	}
 
 	bool depthTest = true;
 	bool depthWrite = true;

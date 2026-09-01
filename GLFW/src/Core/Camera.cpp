@@ -20,7 +20,7 @@ Camera::Camera(GLFWwindow& window) {
 	glfwGetWindowSize(&window, &width, &height);
 	lastWidth = static_cast<float>(width);
 	lastHeight = static_cast<float>(height);
-	projectionMatrix = glm::perspective(glm::radians(fov), lastWidth / lastHeight, 0.1f, 1000.0f);
+	projectionMatrix = glm::perspective(glm::radians(fov), lastWidth / lastHeight, nearPlane, farPlane);
 }
 
 void Camera::setViewMatrix() {
@@ -31,7 +31,7 @@ void Camera::updateProjectionMatrix(float width, float height) {
 	lastWidth = width;
 	lastHeight = height;
 	float aspectRatio = width / height;
-	projectionMatrix = glm::perspective(glm::radians(fov), aspectRatio, 0.1f, 1000.0f);
+	projectionMatrix = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
 }
 
 void Camera::setFov(float degrees) {

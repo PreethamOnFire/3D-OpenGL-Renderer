@@ -88,16 +88,15 @@ void SceneNode::updateGlobalTransform(const glm::mat4& parentTransform) {
     }
 }
 
-void SceneNode::render(Renderer& renderer, const MaterialLibrary& materials) {
-    for (auto& mesh : meshes) {
+void SceneNode::collectRenderCommands(RenderQueue& queue, const MaterialLibrary& materials, const glm::vec3& camEye, const Frustum& frustum) const {
+    for (const auto& mesh : meshes) {
         if (!mesh) continue;
         Material& material = materials.getOrDefault(mesh->getMaterialName());
-        material.bind();
-        renderer.drawTriangles(*mesh, *material.getPipeline());
-        material.unbind();
+        queue.add(mesh.get(), &material, camEye, frustum);
     }
-    for (auto& child : children) {
-		child->render(renderer, materials);
+    for (const auto& child : children) {
+        if (!child) continue;
+        child->collectRenderCommands(queue, materials, camEye, frustum);
     }
 }
 
@@ -117,6 +116,19 @@ SceneStats SceneNode::getStats() const {
         stats.indexCount += childStats.indexCount;
     }
     return stats;
+}
+
+AABB SceneNode::getWorldBounds() const {
+    AABB bounds;
+    for (const auto& mesh : meshes) {
+        if (!mesh) continue;
+        bounds.expand(mesh->getWorldBounds());
+    }
+    for (const auto& child : children) {
+        if (!child) continue;
+        bounds.expand(child->getWorldBounds());
+    }
+    return bounds;
 }
 
 void SceneNode::collectMaterialNames(std::set<std::string>& out) const {

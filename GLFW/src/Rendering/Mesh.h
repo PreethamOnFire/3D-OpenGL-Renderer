@@ -7,6 +7,7 @@
 #include "IndexBuffer.h"
 #include <glm/mat4x4.hpp>
 #include "Vertex.h"
+#include "AABB.h"
 
 class Mesh {
 public:
@@ -27,7 +28,12 @@ public:
 	const std::vector<Vertex>& getVertices() const;
 	const std::vector<unsigned int>& getIndices() const;
 
+	const AABB& getLocalBounds() const { return localBounds; }
+	AABB getWorldBounds() const { return localBounds.transformed(modelMatrix); }
+
 private:
+	void recomputeLocalBounds();
+
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::string materialName;
@@ -35,4 +41,5 @@ private:
 	std::unique_ptr<VertexBuffer> VBO;
 	std::unique_ptr<IndexBuffer> EBO;
 	glm::mat4 modelMatrix{1.0f};
+	AABB localBounds;
 };

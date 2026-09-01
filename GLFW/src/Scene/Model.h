@@ -3,6 +3,9 @@
 #include <vector>
 #include <memory>
 #include "../Rendering/Mesh.h"
+#include "../Rendering/AABB.h"
+#include "../Rendering/RenderQueue.h"
+#include "../Rendering/Frustum.h"
 #include "../Loaders/ModelLoader.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -56,10 +59,11 @@ public:
 	SceneNode* getRootNode() const;
 	SceneNode* findNode(const std::string& name);
 	std::vector<std::string> getMaterialNames() const;
+	AABB getWorldBounds() const;
 
 	bool isLoaded() const;
 
-	void render(Renderer& renderer, const MaterialLibrary& materials);
+	void collectRenderCommands(RenderQueue& queue, const MaterialLibrary& materials, const glm::vec3& camEye, const Frustum& frustum) const;
 
 private:
 	std::string name;

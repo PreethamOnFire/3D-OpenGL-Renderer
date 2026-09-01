@@ -20,12 +20,16 @@ public:
 	void setSensitivity(float newSensitivity) { sensitivity = newSensitivity; }
 	float getFov() const { return fov; } // stored in degrees
 	void setFov(float degrees);
+	float getNearPlane() const { return nearPlane; }
+	float getFarPlane() const { return farPlane; }
 	void setEye(const glm::vec3& newEye); // teleport — keeps current look direction
 	void updateProjectionMatrix(float width, float height);
 	void update(const InputManager& input, float deltaTime);
 
 private:
 	float fov;
+	float nearPlane = 0.1f;
+	float farPlane = 1000.0f;
 	float speed;
 	float baseSpeed = 5.0f; // walk speed before the Shift-sprint multiplier
 	float yaw;

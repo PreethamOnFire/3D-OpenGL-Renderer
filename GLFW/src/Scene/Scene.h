@@ -8,6 +8,7 @@
 #include "../Core/Renderer.h"
 #include "../Core/ShaderPipeline.h"
 #include "../Rendering/MaterialLibrary.h"
+#include "../Rendering/RenderQueue.h"
 #include "Model.h"
 #include "SceneStats.h"
 
@@ -16,6 +17,7 @@ private:
 	std::vector<Light> lights;
 	std::vector<std::unique_ptr<Model>> models;
 	std::unique_ptr<SkyBox> skybox;
+	RenderQueue renderQueue;
 
 	glm::vec3 ambientLight;
 	void updateLightUniforms(ShaderPipeline& pipeline, const glm::vec3& viewPos);

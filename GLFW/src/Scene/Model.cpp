@@ -106,9 +106,14 @@ std::vector<std::string> Model::getMaterialNames() const {
 	return std::vector<std::string>(names.begin(), names.end());
 }
 
-void Model::render(Renderer& renderer, const MaterialLibrary& materials) {
+AABB Model::getWorldBounds() const {
+	if (!rootNode) return AABB();
+	return rootNode->getWorldBounds();
+}
+
+void Model::collectRenderCommands(RenderQueue& queue, const MaterialLibrary& materials, const glm::vec3& camEye, const Frustum& frustum) const {
 	if (!rootNode || !visible) return;
-	rootNode->render(renderer, materials);
+	rootNode->collectRenderCommands(queue, materials, camEye, frustum);
 }
 
 void Model::generateCube(const std::string& materialName) {

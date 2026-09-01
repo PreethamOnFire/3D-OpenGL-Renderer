@@ -36,6 +36,9 @@ public:
 	void setSpecular(const glm::vec3& value);
 	void setShininess(float value);
 
+	bool isTransparent() const { return transparent; }
+	void setTransparent(bool value) { transparent = value; }
+
 	void bind() const;
 	void unbind() const;
 
@@ -61,4 +64,5 @@ private:
 	bool hasDiffuseMap = false;
 	bool hasSpecularMap = false;
 	bool hasNormalMap = false;
+	bool transparent = false;
 };
