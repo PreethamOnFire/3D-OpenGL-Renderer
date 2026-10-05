@@ -132,17 +132,17 @@ void ModelLoader::loadMaterials(const aiScene* scene, const std::string& directo
         material.setVec3("specular", specular);
         material.setFloat("shininess", shininess);
 
-        std::vector<Texture> diffuseMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_DIFFUSE, "diffuse", directory);
+        std::vector<Texture> diffuseMaps = TextureLoader::loadMaterialTextures(scene, aiMat, aiTextureType_DIFFUSE, "diffuse", directory);
         for (auto& texture : diffuseMaps) {
             material.setTexture("diffuse", texture);
         }
 
-		std::vector<Texture> specularMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_SPECULAR, "specular", directory);
+		std::vector<Texture> specularMaps = TextureLoader::loadMaterialTextures(scene, aiMat, aiTextureType_SPECULAR, "specular", directory);
         for (auto& texture : specularMaps) {
             material.setTexture("specular", texture);
         }
 
-		std::vector<Texture> normalMaps = TextureLoader::loadMaterialTextures(aiMat, aiTextureType_HEIGHT, "normal", directory);
+		std::vector<Texture> normalMaps = TextureLoader::loadMaterialTextures(scene, aiMat, aiTextureType_HEIGHT, "normal", directory);
         for (auto& texture : normalMaps) {
             material.setTexture("normal", texture);
         }

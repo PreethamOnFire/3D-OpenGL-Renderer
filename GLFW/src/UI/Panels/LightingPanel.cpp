@@ -126,6 +126,8 @@ void LightingPanel::drawLight(Light& light, int index, bool& removeRequested, in
         }
     }
 
+    ImGui::Checkbox("Casts Shadow", &light.castsShadows);
+
     if (ImGui::Button("Remove")) {
         removeRequested = true;
         removeIndex = index;

@@ -149,6 +149,12 @@ void Scene::updateLightUniforms(ShaderPipeline& pipeline, const glm::vec3& viewP
 		pipeline.setFloat(base + ".quadratic", lights[i].quadratic);
 		pipeline.setFloat(base + ".cutOff", lights[i].cutOff);
 		pipeline.setFloat(base + ".outerCutOff", lights[i].outerCutOff);
+
+		pipeline.setInt(base + ".shadowMapLayer", lights[i].shadowMapLayer);
+		pipeline.setMat4(base + ".lightSpaceMatrix", lights[i].lightSpaceMatrix);
+
+		pipeline.setInt(base + ".shadowCubeLayer", lights[i].shadowCubeLayer);
+		pipeline.setFloat(base + ".shadowFarPlane", lights[i].shadowFarPlane);
 	}
 }
 
@@ -183,6 +189,14 @@ void Scene::render(Renderer& renderer, const MaterialLibrary& materials, ShaderP
 	renderQueue.sortOpaque();
 	renderQueue.sortTransparent();
 	renderQueue.execute(renderer);
+}
+
+void Scene::collectShadowCasters(std::vector<Mesh*>& out) const {
+	for (const auto& model : models) {
+		if (model && model->isLoaded()) {
+			model->collectShadowCasters(out);
+		}
+	}
 }
 
 SceneStats Scene::getStats() const {

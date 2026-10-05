@@ -25,6 +25,7 @@ public:
 	void setTime(float time) { currentTime = time; }
 	void setDeltaTime(float dt) { deltaTime = dt; }
 	void bindGlobalUniforms(ShaderPipeline& pipeline);
+	void restoreViewport(); // reasserts the window-sized viewport after a pass rendered into a FrameBuffer
 
 	const glm::vec3& getClearColor() const { return clearColor; }
 	void setClearColor(const glm::vec3& color) { clearColor = color; }

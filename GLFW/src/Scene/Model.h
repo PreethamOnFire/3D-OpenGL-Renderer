@@ -49,6 +49,8 @@ public:
 	bool isVisible() const { return visible; }
 	void setVisible(bool newVisible) { visible = newVisible; }
 
+	void setCastsShadow(bool value);
+
 	void setPosition(const glm::vec3& position);
 	void setRotation(const glm::vec3& rotation);
 	void setScale(const glm::vec3& scale);
@@ -64,6 +66,7 @@ public:
 	bool isLoaded() const;
 
 	void collectRenderCommands(RenderQueue& queue, const MaterialLibrary& materials, const glm::vec3& camEye, const Frustum& frustum) const;
+	void collectShadowCasters(std::vector<Mesh*>& out) const;
 
 private:
 	std::string name;

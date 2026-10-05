@@ -26,15 +26,19 @@ public:
 
 	// for shadows later on
 	bool castsShadows;
-	unsigned int shadowMap;
+	int shadowMapLayer; // layer index into the shared ShadowMapArray this frame; -1 = none assigned (directional/spot)
 	glm::mat4 lightSpaceMatrix;
+
+	int shadowCubeLayer;   // light-slot index into the shared CubemapArray this frame; -1 = none assigned (point)
+	float shadowFarPlane;  // far-plane distance used for this light's point-shadow depth pass this frame
 
 	Light(LightType lightType = LightType::DIRECTIONAL)
 		: type(lightType), position(0.0f), direction(0.0f, -1.0f, 0.0f),
 		color(1.0f), intensity(1.0f), constant(1.0f), linear(0.09f),
 		quadratic(0.032f), cutOff(glm::cos(glm::radians(12.5f))),
 		outerCutOff(glm::cos(glm::radians(17.5f))), castsShadows(false),
-		shadowMap(0), lightSpaceMatrix(1.0f) {
+		shadowMapLayer(-1), lightSpaceMatrix(1.0f),
+		shadowCubeLayer(-1), shadowFarPlane(25.0f) {
 	}
 
 	static Light createDirectionalLight(const glm::vec3& dir, const glm::vec3& col, float intensity = 1.0f) {

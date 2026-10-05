@@ -26,7 +26,7 @@ float Material::getFloatOrDefault(const std::string& name, float def) const {
 	return it != floatProps.end() ? it->second : def;
 }
 
-glm::vec3 Material::getAmbient() const { return getVec3OrDefault("ambient", glm::vec3(0.0f)); }
+glm::vec3 Material::getAmbient() const { return getVec3OrDefault("ambient", glm::vec3(0.3f)); }
 glm::vec3 Material::getDiffuse() const { return getVec3OrDefault("diffuse", glm::vec3(0.8f)); }
 glm::vec3 Material::getSpecular() const { return getVec3OrDefault("specular", glm::vec3(1.0f)); }
 float Material::getShininess() const { return getFloatOrDefault("shininess", 32.0f); }

@@ -5,7 +5,9 @@
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "../Core/ShaderPipeline.h"
 #include <glm/mat4x4.hpp>
+#include <glm/matrix.hpp>
 
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, std::string materialName) : vertices(vertices), indices(indices), materialName(std::move(materialName)) {
 	auto vertexData = Vertex::toFloatArray(vertices);
@@ -61,6 +63,16 @@ void Mesh::updateModelMatrix(const glm::mat4& modelMatrix) {
 void Mesh::bind() const {
 	VAO->bind();
 	EBO->bind();
+}
+
+void Mesh::render(ShaderPipeline& pipeline, const glm::mat4& viewProj) const {
+	bind();
+	glm::mat4 MVP = viewProj * modelMatrix;
+	glm::mat4 normalMatrix = glm::transpose(glm::inverse(modelMatrix));
+	pipeline.setMat4("MVP", MVP);
+	pipeline.setMat4("modelMatrix", modelMatrix);
+	pipeline.setMat4("normalMatrix", normalMatrix);
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, nullptr);
 }
 
 Mesh::~Mesh() = default;

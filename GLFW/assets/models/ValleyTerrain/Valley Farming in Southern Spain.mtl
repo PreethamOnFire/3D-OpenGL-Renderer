@@ -1,0 +1,165 @@
+newmtl ID4
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID4_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID4_reflection.tga
+map_bump Valley Farming in Southern Spain_ID4_normal_map.tga
+newmtl ID649
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID649_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID649_reflection.tga
+map_bump Valley Farming in Southern Spain_ID649_normal_map.tga
+newmtl ID1478
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID1478_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID1478_reflection.tga
+map_bump Valley Farming in Southern Spain_ID1478_normal_map.tga
+newmtl ID1699
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID1699_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID1699_reflection.tga
+map_bump Valley Farming in Southern Spain_ID1699_normal_map.tga
+newmtl ID2272
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID2272_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID2272_reflection.tga
+map_bump Valley Farming in Southern Spain_ID2272_normal_map.tga
+newmtl ID2445
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID2445_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID2445_reflection.tga
+map_bump Valley Farming in Southern Spain_ID2445_normal_map.tga
+newmtl ID3250
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID3250_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID3250_reflection.tga
+map_bump Valley Farming in Southern Spain_ID3250_normal_map.tga
+newmtl ID3695
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID3695_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID3695_reflection.tga
+map_bump Valley Farming in Southern Spain_ID3695_normal_map.tga
+newmtl ID4148
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID4148_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID4148_reflection.tga
+map_bump Valley Farming in Southern Spain_ID4148_normal_map.tga
+newmtl ID4561
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID4561_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID4561_reflection.tga
+map_bump Valley Farming in Southern Spain_ID4561_normal_map.tga
+newmtl ID4982
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID4982_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID4982_reflection.tga
+map_bump Valley Farming in Southern Spain_ID4982_normal_map.tga
+newmtl ID5403
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID5403_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID5403_reflection.tga
+map_bump Valley Farming in Southern Spain_ID5403_normal_map.tga
+newmtl ID5552
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID5552_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID5552_reflection.tga
+map_bump Valley Farming in Southern Spain_ID5552_normal_map.tga
+newmtl ID5693
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID5693_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID5693_reflection.tga
+map_bump Valley Farming in Southern Spain_ID5693_normal_map.tga
+newmtl ID5730
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd Valley Farming in Southern Spain_ID5730_diffuse.tga
+map_Ks Valley Farming in Southern Spain_ID5730_reflection.tga
+map_bump Valley Farming in Southern Spain_ID5730_normal_map.tga

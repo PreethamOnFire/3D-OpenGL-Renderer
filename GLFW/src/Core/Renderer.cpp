@@ -32,13 +32,13 @@ void Renderer::bindGlobalUniforms(ShaderPipeline& pipeline) {
 }
 
 void Renderer::drawTriangles(Mesh& mesh, ShaderPipeline& pipeline) {
-    mesh.bind();
-    const glm::mat4& model = mesh.getModelMatrix();
-    glm::mat4 MVP = camera->getProjectionMatrix() * camera->getViewMatrix() * model;
-    glm::mat4 normalMatrix = glm::transpose(glm::inverse(model));
-    pipeline.setMat4("MVP", MVP);
-    pipeline.setMat4("modelMatrix", model);
-    pipeline.setMat4("normalMatrix", normalMatrix);
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(mesh.getIndexCount()), GL_UNSIGNED_INT, nullptr);
+    glm::mat4 viewProj = camera->getProjectionMatrix() * camera->getViewMatrix();
+    mesh.render(pipeline, viewProj);
     drawCallCount++;
+}
+
+void Renderer::restoreViewport() {
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    glViewport(0, 0, width, height);
 }

@@ -55,6 +55,7 @@ public:
 	void setAmbientLight(const glm::vec3& color) { ambientLight = color; }
 
 	void render(Renderer& renderer, const MaterialLibrary& materials, ShaderPipeline& lightingPipeline);
+	void collectShadowCasters(std::vector<Mesh*>& out) const;
 
 	SceneStats getStats() const;
 

@@ -100,6 +100,24 @@ void SceneNode::collectRenderCommands(RenderQueue& queue, const MaterialLibrary&
     }
 }
 
+void SceneNode::setCastsShadow(bool value) {
+    for (auto& mesh : meshes) {
+        if (mesh) mesh->setCastsShadow(value);
+    }
+    for (auto& child : children) {
+        if (child) child->setCastsShadow(value);
+    }
+}
+
+void SceneNode::collectShadowCasters(std::vector<Mesh*>& out) const {
+    for (const auto& mesh : meshes) {
+        if (mesh && mesh->getCastsShadow()) out.push_back(mesh.get());
+    }
+    for (const auto& child : children) {
+        if (child) child->collectShadowCasters(out);
+    }
+}
+
 SceneStats SceneNode::getStats() const {
     SceneStats stats;
     stats.meshCount = meshes.size();

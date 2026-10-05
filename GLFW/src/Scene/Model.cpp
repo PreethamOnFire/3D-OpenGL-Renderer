@@ -116,6 +116,15 @@ void Model::collectRenderCommands(RenderQueue& queue, const MaterialLibrary& mat
 	rootNode->collectRenderCommands(queue, materials, camEye, frustum);
 }
 
+void Model::setCastsShadow(bool value) {
+	if (rootNode) rootNode->setCastsShadow(value);
+}
+
+void Model::collectShadowCasters(std::vector<Mesh*>& out) const {
+	if (!rootNode || !visible) return;
+	rootNode->collectShadowCasters(out);
+}
+
 void Model::generateCube(const std::string& materialName) {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;

@@ -1,9 +1,12 @@
 #pragma once
 #pragma once
+#include <vector>
+#include <memory>
 #include "Core/Application.h"
 #include "Scene/Scene.h"
 #include "Core/ShaderPipelineLibrary.h"
 #include "Rendering/MaterialLibrary.h"
+#include "Rendering/RenderPass.h"
 
 class RendererApp : public Application {
 public:
@@ -19,4 +22,5 @@ private:
     std::unique_ptr<Scene>  scene;
     ShaderPipelineLibrary pipelines;
     MaterialLibrary materials;
+    std::vector<std::unique_ptr<RenderPass>> renderPasses;
 };

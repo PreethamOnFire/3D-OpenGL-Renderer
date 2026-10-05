@@ -38,6 +38,9 @@ public:
 
 	void collectRenderCommands(RenderQueue& queue, const MaterialLibrary& materials, const glm::vec3& camEye, const Frustum& frustum) const;
 
+	void setCastsShadow(bool value);
+	void collectShadowCasters(std::vector<Mesh*>& out) const;
+
 	SceneStats getStats() const;
 	void collectMaterialNames(std::set<std::string>& out) const;
 	AABB getWorldBounds() const;

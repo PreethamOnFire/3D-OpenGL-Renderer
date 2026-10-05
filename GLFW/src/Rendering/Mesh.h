@@ -9,6 +9,8 @@
 #include "Vertex.h"
 #include "AABB.h"
 
+class ShaderPipeline;
+
 class Mesh {
 public:
 	Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, std::string materialName);
@@ -19,6 +21,7 @@ public:
 	const std::string& getMaterialName() const { return materialName; }
 	const glm::mat4& getModelMatrix() const { return modelMatrix; }
 	void bind() const;
+	void render(ShaderPipeline& pipeline, const glm::mat4& viewProj) const;
 
 	void updateVertices(const std::vector<Vertex>& newVertices);
 	void updateIndices(const std::vector<unsigned int>& newIndices);
@@ -27,6 +30,9 @@ public:
 	size_t getIndexCount() const;
 	const std::vector<Vertex>& getVertices() const;
 	const std::vector<unsigned int>& getIndices() const;
+
+	bool getCastsShadow() const { return castsShadow; }
+	void setCastsShadow(bool value) { castsShadow = value; }
 
 	const AABB& getLocalBounds() const { return localBounds; }
 	AABB getWorldBounds() const { return localBounds.transformed(modelMatrix); }
@@ -42,4 +48,5 @@ private:
 	std::unique_ptr<IndexBuffer> EBO;
 	glm::mat4 modelMatrix{1.0f};
 	AABB localBounds;
+	bool castsShadow = true;
 };
