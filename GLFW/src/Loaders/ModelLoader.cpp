@@ -54,6 +54,13 @@ std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh* mesh, const aiScene* scen
         } else {
             vertex.texCoords = glm::vec2(0.0f, 0.0f);
         }
+
+        
+        if (mesh->HasTangentsAndBitangents()) {
+            glm::vec3 t(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
+            glm::vec3 b(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z);
+            vertex.tangent = Vertex::packTangent(glm::normalize(vertex.normal), t, b);
+        }
         vertices.push_back(vertex);
 	}
 
@@ -62,6 +69,10 @@ std::unique_ptr<Mesh> ModelLoader::processMesh(aiMesh* mesh, const aiScene* scen
         for (unsigned int j = 0; j < face.mNumIndices; j++) {
             indices.push_back(face.mIndices[j]);
         }
+    }
+
+    if (!mesh->HasTangentsAndBitangents()) {
+        Vertex::computeTangents(vertices, indices);
     }
 
     std::string materialName = modelName + "_mat_" + std::to_string(mesh->mMaterialIndex);
@@ -142,7 +153,11 @@ void ModelLoader::loadMaterials(const aiScene* scene, const std::string& directo
             material.setTexture("specular", texture);
         }
 
-		std::vector<Texture> normalMaps = TextureLoader::loadMaterialTextures(scene, aiMat, aiTextureType_HEIGHT, "normal", directory);
+        // glTF/FBX put tangent-space normal maps under NORMALS; OBJ's map_bump/bump lands in HEIGHT.
+		std::vector<Texture> normalMaps = TextureLoader::loadMaterialTextures(scene, aiMat, aiTextureType_NORMALS, "normal", directory);
+        if (normalMaps.empty()) {
+            normalMaps = TextureLoader::loadMaterialTextures(scene, aiMat, aiTextureType_HEIGHT, "normal", directory);
+        }
         for (auto& texture : normalMaps) {
             material.setTexture("normal", texture);
         }

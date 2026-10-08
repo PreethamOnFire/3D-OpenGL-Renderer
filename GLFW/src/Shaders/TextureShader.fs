@@ -3,6 +3,7 @@ out vec4 FragColor;
 in vec3 outPos;
 in vec3 outNorm;
 in vec2 outTex;
+in mat3 outTBN;
 
 struct Material {
     sampler2D diffuse0;
@@ -69,8 +70,11 @@ vec3 calculateSpotLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir, ve
 
 void main()
 {
-    vec3 norm = material.hasNormalMap ? (normalize(texture(material.normal0, outTex).rgb * 2.0 - 1.0)) : normalize(outNorm);
-    //vec3 norm = normalize(outNorm);
+    vec3 norm = normalize(outNorm);
+    if (material.hasNormalMap) {
+        vec3 tangentNormal = texture(material.normal0, outTex).rgb * 2.0 - 1.0;
+        norm = normalize(outTBN * tangentNormal);
+    }
     vec3 viewDir = normalize(viewPos - outPos);
 
     vec3 materialDiffuse = material.hasDiffuseMap ? texture(material.diffuse0, outTex).rgb : material.diffuse;

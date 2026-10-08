@@ -168,6 +168,7 @@ void Model::generateCube(const std::string& materialName) {
 		20, 21, 22, 22, 23, 20
 	};
 
+	Vertex::computeTangents(vertices, indices);
 	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, materialName));
 }
 
@@ -217,6 +218,7 @@ void Model::generateSphere(const std::string& materialName, int segments) {
 		}
 	}
 
+	Vertex::computeTangents(vertices, indices);
 	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, materialName));
 }
 
@@ -252,5 +254,6 @@ void Model::generatePlane(const std::string& materialName, float width, float he
 			indices.push_back(bottomRight);
 		}
 	}
+	Vertex::computeTangents(vertices, indices);
 	rootNode->addMesh(std::make_unique<Mesh>(vertices, indices, materialName));
 }
