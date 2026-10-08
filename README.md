@@ -9,6 +9,30 @@ I wanted to make sure that I can have an environment that I can easily add more 
 [<img src="https://img.youtube.com/vi/lYOe-wyHsb4/hqdefault.jpg" width="600" height="300"
 />](https://www.youtube.com/embed/lYOe-wyHsb4)
 
+### Shadow Mapping
+<!-- TODO: add demo video/screenshot -->
+*Demo coming soon.*
+
+Directional, spot, and point lights can all cast real-time shadows. Lights can be toggled to cast shadows from the Lighting panel.
+
+### Normal Mapping
+<!-- TODO: add demo video/screenshot -->
+*Demo coming soon.*
+
+Side-by-side of a model with and without its normal map, showing surface detail picked up by the lighting.
+
+### Editor UI
+<!-- TODO: add demo video/screenshot -->
+*Demo coming soon.*
+
+Building a scene at runtime: importing models, adding primitives and lights, and tweaking materials and transforms through the ImGui panels.
+
+### Frustum Culling and Render Queue
+<!-- TODO: add demo video/screenshot -->
+*Demo coming soon.*
+
+The Performance panel showing draw calls dropping as objects leave the camera's view.
+
 I will be adding additional demos in this section when I get to it.
 
 ## Technical Implementation
@@ -19,17 +43,27 @@ I will be adding additional demos in this section when I get to it.
   - Assimp (Model Loading)
   - GLM (Mathematics)
   - stb_image (Texture Loading)
+  - Dear ImGui (Editor UI)
 - **Architecture**: Component-based scene graph system
 - **Shaders**: Custom GLSL vertex and fragment shaders
 
 ## Features
-- **Model Loading**: Support for OBJ and GLTF formats via Assimp integration
-- **Advanced Lighting**: Phong illumination model with support for:
+- **Model Loading**: Support for OBJ and GLTF formats via Assimp integration, including embedded GLTF/GLB textures
+- **Advanced Lighting**: Blinn-Phong illumination model with support for up to 16 lights:
   - Directional lights (sun/moon)
   - Point lights with attenuation
   - Spot lights with cone angles
-- **Material System**: Diffuse, specular, and normal map support
+- **Shadow Mapping**:
+  - Directional and spot light shadows rendered into a shared shadow map array with hardware PCF
+  - Omnidirectional point light shadows using a cubemap array
+- **Normal Mapping**: Per-vertex tangents (loaded from Assimp or generated for primitives) build a TBN matrix so tangent-space normal maps light correctly, including mirrored UVs and negatively scaled models
+- **Material System**: Diffuse, specular, and normal map support, with materials and shader pipelines stored in shared libraries and referenced by name
+- **Shader Pipelines**: Each pipeline owns its GL render state (depth test, blending, face culling), applied when its material is bound
+- **Frustum Culling**: Models outside the camera's view are skipped using bounding boxes
+- **Render Queue**: Draw calls are sorted by pipeline and material to reduce state changes
 - **Scene Management**: Hierarchical scene graph with transform inheritance
+- **Editor UI**: ImGui panels for the scene, model inspector, materials, lighting, camera, renderer settings (wireframe, VSync), and performance stats
+- **Runtime Model Importing**: Add models from disk or spawn cubes, spheres, and planes through the UI
 - **Camera System**: Smooth FPS controls with mouse look
 - **Skybox Rendering**: 360-degree environment mapping
 - **Extensible Design**: Modular architecture for easy feature additions
@@ -43,7 +77,6 @@ I wanted to make this project to create a platform for me to explore any other g
 So here is the list of other things I'm looking to add.
 - Procedural Generation
 - Rendering liquids
-- Shadows
 
 # Previous Graphics Projects
 Here are the previous projects that I worked on that led me to this point. They go from my first WebGL project to my most recent project built on a higher-level library called Three.js.
