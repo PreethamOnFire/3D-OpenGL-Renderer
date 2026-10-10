@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="src\Rendering\FrameBuffer.cpp" />
     <ClCompile Include="src\Rendering\ForwardPass.cpp" />
+    <ClCompile Include="src\Rendering\DebugPass.cpp" />
     <ClCompile Include="src\Rendering\Shadows\ShadowMapArray.cpp" />
     <ClCompile Include="src\Rendering\Shadows\ShadowPassManager.cpp" />
     <ClCompile Include="src\Rendering\Shadows\CubemapArray.cpp" />
@@ -188,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="src\Rendering\FrameBuffer.h" />
     <ClInclude Include="src\Rendering\ForwardPass.h" />
+    <ClInclude Include="src\Rendering\DebugPass.h" />
     <ClInclude Include="src\Rendering\RenderPass.h" />
     <ClInclude Include="src\Rendering\Shadows\ShadowMapArray.h" />
     <ClInclude Include="src\Rendering\Shadows\ShadowPassManager.h" />
@@ -254,6 +256,8 @@
     <None Include="src\Shaders\SkyBoxVertexShader.vs" />
     <None Include="src\Shaders\ShadowMapVertexShader.vs" />
     <None Include="src\Shaders\PointShadowVertexShader.vs" />
+    <None Include="src\Shaders\DebugLineVertexShader.vs" />
+    <None Include="src\Shaders\DebugLineFragmentShader.fs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,6 +21,7 @@ public:
 	const std::string& getName() const { return name; }
 	bool hasMeshes() const { return !meshes.empty(); }
 	size_t getMeshCount() const { return meshes.size(); }
+	const std::vector<std::unique_ptr<Mesh>>& getMeshes() const { return meshes; }
 	void addMesh(std::unique_ptr<Mesh> mesh);
 
 	void addChild(std::unique_ptr<SceneNode> child);

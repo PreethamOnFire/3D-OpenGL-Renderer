@@ -7,6 +7,7 @@
 #include "Core/ShaderPipelineLibrary.h"
 #include "Rendering/MaterialLibrary.h"
 #include "Rendering/RenderPass.h"
+#include "Rendering/DebugPass.h"
 
 class RendererApp : public Application {
 public:
@@ -23,4 +24,5 @@ private:
     ShaderPipelineLibrary pipelines;
     MaterialLibrary materials;
     std::vector<std::unique_ptr<RenderPass>> renderPasses;
+    DebugSettings debugSettings;
 };

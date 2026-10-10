@@ -144,6 +144,9 @@
     <ClCompile Include="src\Rendering\ForwardPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rendering\DebugPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Rendering\Shadows\ShadowMapArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -305,6 +308,9 @@
     <ClInclude Include="src\Rendering\ForwardPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rendering\DebugPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rendering\RenderPass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -331,5 +337,7 @@
     <None Include="src\Shaders\ShadowMapFragmentShader.fs" />
     <None Include="src\Shaders\PointShadowVertexShader.vs" />
     <None Include="src\Shaders\PointShadowFragmentShader.fs" />
+    <None Include="src\Shaders\DebugLineVertexShader.vs" />
+    <None Include="src\Shaders\DebugLineFragmentShader.fs" />
   </ItemGroup>
 </Project>

@@ -35,11 +35,16 @@ void RendererApp::onInit() {
     ShaderPipeline& pointShadowPipeline = pipelines.load("pointShadow", "src/Shaders/PointShadowVertexShader.vs", "src/Shaders/PointShadowFragmentShader.fs");
     pointShadowPipeline.blending = false;
 
+    ShaderPipeline& debugPipeline = pipelines.load("debug", "src/Shaders/DebugLineVertexShader.vs", "src/Shaders/DebugLineFragmentShader.fs");
+    debugPipeline.blending = false;
+    debugPipeline.depthWrite = false; // overlay lines shouldn't occlude each other
+
     auto shadowManager = std::make_unique<ShadowPassManager>(shadowPipeline, pointShadowPipeline);
     const ShadowMapArray& shadowMapArray = shadowManager->getShadowMapArray();
     const CubemapArray& pointShadowMapArray = shadowManager->getPointShadowMapArray();
     renderPasses.push_back(std::move(shadowManager));
     renderPasses.push_back(std::make_unique<ForwardPass>(objectPipeline, shadowMapArray, pointShadowMapArray));
+    renderPasses.push_back(std::make_unique<DebugPass>(debugPipeline, debugSettings, UI->ctx));
 
     std::vector<std::string> faces{
         "right.jpg", "left.jpg", "top.jpg",
@@ -52,21 +57,24 @@ void RendererApp::onInit() {
     monkey->setScale(glm::vec3(0.8f, 0.8f, 0.8f));
 
 	Model* Trees = scene->addModel("Trees", "assets/models/Gledista_Triacanthos_OBJ/Gledista_Triacanthos.obj", objectPipeline, materials);
-	Trees->setScale(glm::vec3(0.2f, 0.2f, 0.2f));
+	Trees->setScale(glm::vec3(0.3f, 0.3f, 0.3f));
+	Trees->setPosition(glm::vec3(-4.5f, 4.7f, 7.3f));
 
     Model* normandy = scene->addModel("Normandy", "assets/models/Normandy/Normandy.obj", objectPipeline, materials);
-    normandy->setPosition(glm::vec3(0.0f, 13.0f, -6.0f));
+    normandy->setPosition(glm::vec3(-5.350f, 13.0f, -2.0f));
+	normandy->setRotation(glm::vec3(0.0f, 212.5f, 0.0f));
     normandy->setScale(glm::vec3(0.001f, 0.001f, 0.001f));
 
     Model* tower = scene->addModel("Tower", "assets/models/Tower/scene.gltf", objectPipeline, materials);
-    tower->setPosition(glm::vec3(-6.0f, 4.0f, 6.0f));
+    tower->setPosition(glm::vec3(0.4f, 2.0f, 6.9f));
+	tower->setRotation(glm::vec3(-76.5f, -39.0f, 4.0f));
     tower->setScale(glm::vec3(0.001f, 0.001f, 0.001f));
 
     Model* island = scene->addModel("Island", "assets/models/Island/Island.obj", objectPipeline, materials);
     island->setScale(glm::vec3(10.0f, 10.0f, 10.0f));
 
     Light* sun = scene->addDirectionalLight(
-        glm::vec3(0.3f, 1.0f, 0.5f),
+        glm::vec3(-0.001f, 0.930f, -0.368f),
         glm::vec3(1.0f, 0.95f, 0.8f),
         1.0f
     );
@@ -74,7 +82,7 @@ void RendererApp::onInit() {
 
     UI->registerPanel(std::make_unique<PerformancePanel>(*renderer, *scene, clock));
     UI->registerPanel(std::make_unique<CameraPanel>(*renderer));
-    UI->registerPanel(std::make_unique<RendererSettingsPanel>(*renderer, *window));
+    UI->registerPanel(std::make_unique<RendererSettingsPanel>(*renderer, *window, debugSettings));
     UI->registerPanel(std::make_unique<ScenePanel>(*scene, UI->ctx, objectPipeline, materials, *window));
     UI->registerPanel(std::make_unique<ModelInspectorPanel>(UI->ctx));
     UI->registerPanel(std::make_unique<LightingPanel>(*scene, UI->ctx));

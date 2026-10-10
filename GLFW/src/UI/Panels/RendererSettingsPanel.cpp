@@ -1,8 +1,8 @@
 #include "RendererSettingsPanel.h"
 #include <imgui.h>
 
-RendererSettingsPanel::RendererSettingsPanel(Renderer& renderer, Window& window)
-    : renderer(renderer), window(window) {}
+RendererSettingsPanel::RendererSettingsPanel(Renderer& renderer, Window& window, DebugSettings& debugSettings)
+    : renderer(renderer), window(window), debugSettings(debugSettings) {}
 
 void RendererSettingsPanel::draw() {
     if (!visible) return;
@@ -24,6 +24,16 @@ void RendererSettingsPanel::draw() {
     bool vsync = window.isVSyncEnabled();
     if (ImGui::Checkbox("VSync", &vsync)) {
         window.setVSync(vsync);
+    }
+
+    if (ImGui::CollapsingHeader("Debug Overlay")) {
+        ImGui::Checkbox("Enabled", &debugSettings.enabled);
+        if (debugSettings.enabled) {
+            ImGui::Checkbox("Lights", &debugSettings.showLights);
+            ImGui::Checkbox("Model Bounds", &debugSettings.showModelBounds);
+            ImGui::Checkbox("Mesh Bounds", &debugSettings.showMeshBounds);
+            ImGui::Checkbox("Draw On Top", &debugSettings.drawOnTop);
+        }
     }
 
     ImGui::End();
