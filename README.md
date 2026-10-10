@@ -1,5 +1,5 @@
 # 3D OpenGL Renderer
-<img width="2247" height="1362" alt="Screenshot 2025-09-05 171245" src="https://github.com/user-attachments/assets/6a75354a-5581-4531-9186-d0a331724aef" />
+<img width="920" height="509" alt="Screenshot 2026-10-10 123732" src="https://github.com/user-attachments/assets/d934224b-fbd7-4225-acba-b58ba0fde5c2" />
 After taking a class on Computer Graphics, I decided that I wanted to explore more on lower level graphics. My previous projects were on an older version of WebGL and I wanted to use Modern OpenGL and write my project in C++ which is what most of the industry uses.
 Another goal of the project was to make the code a lot more reusable and modular in design. 
 I wanted to make sure that I can have an environment that I can easily add more features and explore other graphics topics, such as Procedural Generation.
