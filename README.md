@@ -34,19 +34,65 @@ Building a scene at runtime: importing models, adding primitives and lights, and
 
 The Performance panel showing draw calls dropping as objects leave the camera's view.
 
+### Debug Overlay
+<!-- TODO: add demo video/screenshot -->
+*Demo coming soon.*
+
+Light gizmos and bounding boxes drawn over the scene, toggled from the Renderer Settings panel.
+
 I will be adding additional demos in this section when I get to it.
 
 ## Technical Implementation
-- **Language**: C++ with Modern OpenGL (4.0+)
-- **Libraries**: 
-  - GLFW (Window Management)
-  - GLEW (OpenGL Extension Loading)
-  - Assimp (Model Loading)
-  - GLM (Mathematics)
-  - stb_image (Texture Loading)
-  - Dear ImGui (Editor UI)
+- **Language**: C++17 with Modern OpenGL (4.6 core profile context)
 - **Architecture**: Component-based scene graph system
 - **Shaders**: Custom GLSL vertex and fragment shaders
+
+### Versions
+| Component | Version | Purpose |
+|---|---|---|
+| OpenGL | 4.6 core (shaders target GLSL 3.30 / 4.00) | Graphics API |
+| GLFW | 3.4.0 | Window management and input |
+| GLEW | 2.1.0 (static) | OpenGL extension loading |
+| GLM | 1.0.1 | Mathematics |
+| Assimp | prebuilt `assimp-vc143-mt` | Model loading |
+| Dear ImGui | 1.92.8 | Editor UI |
+| stb_image | 2.30 | Texture loading |
+| Visual Studio | 2022 (MSVC v143 toolset) | Compiler / IDE |
+| Windows SDK | 10.0 | Platform |
+
+All libraries are included pre-built for x64 in the `Dependencies/` folder, so nothing needs to be installed separately.
+
+## Building and Running
+### Requirements
+- Windows 10 or 11 (x64)
+- Visual Studio 2022 with the **Desktop development with C++** workload
+- A GPU and driver that support OpenGL 4.6
+
+### Visual Studio
+1. Clone the repository:
+   ```
+   git clone https://github.com/PreethamOnFire/OpenGL-Learning.git
+   ```
+2. Open `GLFW.sln` in Visual Studio 2022.
+3. Select the **Debug|x64** or **Release|x64** configuration.
+4. In the project's **Properties → Debugging → Working Directory**, set it to `$(ProjectDir)` (the inner `GLFW/` folder) so shaders (`src/Shaders/...`) and assets (`assets/...`) are found.
+5. Build and run (F5).
+
+### Command Line
+From a **Developer Command Prompt for VS 2022**:
+```
+msbuild GLFW.sln /p:Configuration=Release /p:Platform=x64
+cd GLFW
+..\x64\Release\GLFW.exe
+```
+The build copies `assimp-vc143-mt.dll` next to the executable automatically. The executable must be run from the inner `GLFW/` folder, since shader and asset paths are relative to it.
+
+### Controls
+- **WASD**: Move
+- **Left Shift**: Move faster
+- **Mouse**: Look around (while the cursor is captured)
+- **Left Click**: Capture the cursor
+- **Escape**: Release the cursor to use the UI
 
 ## Features
 - **Model Loading**: Support for OBJ and GLTF formats via Assimp integration, including embedded GLTF/GLB textures
@@ -63,6 +109,7 @@ I will be adding additional demos in this section when I get to it.
 - **Frustum Culling**: Models outside the camera's view are skipped using bounding boxes
 - **Render Queue**: Draw calls are sorted by pipeline and material to reduce state changes
 - **Scene Management**: Hierarchical scene graph with transform inheritance
+- **Debug Overlay**: A separate debug pass, run after the main forward pass, that draws light gizmos (point light spheres, spot light cones, directional light arrows) and model/mesh bounding boxes. All lines for a frame are batched into a single vertex buffer and drawn in one call, with toggles in the Renderer Settings panel
 - **Editor UI**: ImGui panels for the scene, model inspector, materials, lighting, camera, renderer settings (wireframe, VSync), and performance stats
 - **Runtime Model Importing**: Add models from disk or spawn cubes, spheres, and planes through the UI
 - **Camera System**: Smooth FPS controls with mouse look
