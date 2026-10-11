@@ -6,39 +6,25 @@ Another goal of the project was to make the code a lot more reusable and modular
 I wanted to make sure that I can have an environment that I can easily add more features and explore other graphics topics, such as Procedural Generation.
 
 ## Demos
-### Simple 3D Day Scene
-[<img src="https://img.youtube.com/vi/lYOe-wyHsb4/hqdefault.jpg" width="600" height="300"
-/>](https://www.youtube.com/embed/lYOe-wyHsb4)
+### General Demo
+[<img src="https://i3.ytimg.com/vi/EsWrUm1pA-I/maxresdefault.jpg" width="500" height="300"
+/>](https://youtu.be/EsWrUm1pA-I)
 
-### Shadow Mapping
-<!-- TODO: add demo video/screenshot -->
-*Demo coming soon.*
+Building a scene at runtime: importing models, adding primitives and lights, and tweaking materials and transforms through the ImGui panels.
+The Performance panel showing draw calls dropping as objects leave the camera's view.
+Light gizmos and bounding boxes drawn over the scene, toggled from the Renderer Settings panel.
+
+### Shadow Mapping and Lighting
+[<img src="https://i3.ytimg.com/vi/cfjVyp83fwA/maxresdefault.jpg" width="500" height="300"
+/>](https://youtu.be/cfjVyp83fwA)
+
 
 Directional, spot, and point lights can all cast real-time shadows. Lights can be toggled to cast shadows from the Lighting panel.
 
-### Normal Mapping
-<!-- TODO: add demo video/screenshot -->
-*Demo coming soon.*
 
-Side-by-side of a model with and without its normal map, showing surface detail picked up by the lighting.
-
-### Editor UI
-<!-- TODO: add demo video/screenshot -->
-*Demo coming soon.*
-
-Building a scene at runtime: importing models, adding primitives and lights, and tweaking materials and transforms through the ImGui panels.
-
-### Frustum Culling and Render Queue
-<!-- TODO: add demo video/screenshot -->
-*Demo coming soon.*
-
-The Performance panel showing draw calls dropping as objects leave the camera's view.
-
-### Debug Overlay
-<!-- TODO: add demo video/screenshot -->
-*Demo coming soon.*
-
-Light gizmos and bounding boxes drawn over the scene, toggled from the Renderer Settings panel.
+### Old Demo for Before and After
+[<img src="https://img.youtube.com/vi/lYOe-wyHsb4/hqdefault.jpg" width="500" height="300"
+/>](https://www.youtube.com/embed/lYOe-wyHsb4)
 
 I will be adding additional demos in this section when I get to it.
 
@@ -115,10 +101,6 @@ The build copies `assimp-vc143-mt.dll` next to the executable automatically. The
 - **Camera System**: Smooth FPS controls with mouse look
 - **Skybox Rendering**: 360-degree environment mapping
 - **Extensible Design**: Modular architecture for easy feature additions
-
-### Usage Example
-Setting up a complete 3D scene with lighting and models requires just a few lines:
-<img width="1438" height="1109" alt="Screenshot 2025-09-05 173028" src="https://github.com/user-attachments/assets/c0c2e92a-b7c5-41ff-9b83-b6e999fe1ffd" />
 
 ## Features/Concepts for the Future
 I wanted to make this project to create a platform for me to explore any other graphics concepts that interest me. 
